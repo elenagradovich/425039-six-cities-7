@@ -5,16 +5,13 @@ import PlaceCard from '../place-card/place-card';
 function Hotels ({data}) {
   return(
     <div className="cities__places-list places__list tabs__content">
-      {data.map((item) => <PlaceCard
-        data={item}
-        key={item.id} />
-      )}
+      {data.map((item) => <PlaceCard data={item} key={item.id}/>)}
     </div>
-  )
+  );
 }
 
 Hotels.defaultProps = {
-  data: []
+  data: [],
 };
 
 Hotels.propTypes = {
@@ -24,12 +21,12 @@ Hotels.propTypes = {
       title: PropTypes.string,
       type: PropTypes.string,
       rating: PropTypes.number,
-      is_premium: PropTypes.bool,
-      is_favorite: PropTypes.bool,
+      isPremium: PropTypes.bool,
+      isFavorite: PropTypes.bool,
       price: PropTypes.number,
-      preview_image: PropTypes.string,
-    })
-  )
+      previewImage: PropTypes.string,
+    }),
+  ),
 };
 
 export default Hotels;
