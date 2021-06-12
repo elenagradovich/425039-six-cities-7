@@ -1,12 +1,14 @@
 import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import Hotels from '../hotels/hotels';
+import Header from '../header/header';
+
 
 function Main(props) {
-  const {data, header} = props;
+  const {data, authInfo} = props;
   return (
     <Fragment>
-      {header}
+      <Header authInfo={authInfo}/>
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
@@ -78,12 +80,12 @@ function Main(props) {
 
 Main.defaultProps = {
   data: [],
-  header: {},
+  authInfo: {},
 };
 
 Main.propTypes = {
   data: PropTypes.array,
-  header: PropTypes.object,
+  authInfo: PropTypes.object,
 };
 
 export default Main;

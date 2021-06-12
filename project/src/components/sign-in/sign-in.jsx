@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Header from '../header/header';
 
-function SignIn({header}) {
+function SignIn({authInfo}) {
   return (
     <div className="page page--gray page--login">
-      {header}
+      <Header authInfo={authInfo}/>
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">
@@ -35,11 +36,11 @@ function SignIn({header}) {
   );
 }
 SignIn.defaultProps = {
-  header: {},
+  authInfo: {},
 };
 
 SignIn.propTypes = {
-  header: PropTypes.object,
+  authInfo: PropTypes.object,
 };
 
 export default SignIn;

@@ -6,7 +6,6 @@ import SignIn from '../sign-in/sign-in';
 import Favorites from '../favorites/favorites';
 import Room from '../room/room';
 import NotFound from '../not-found/not-found';
-import Header from '../header/header';
 import * as RoutePath from '../../constants/route-pathes';
 
 function App({hotels, favoriteHotels, authInfo}) {
@@ -14,16 +13,16 @@ function App({hotels, favoriteHotels, authInfo}) {
     <BrowserRouter>
       <Switch>
         <Route path={RoutePath.MAIN} exact>
-          <Main data={hotels} header={<Header authInfo={authInfo}/>} />
+          <Main data={hotels} authInfo={authInfo} />
         </Route>
         <Route path={RoutePath.LOGIN} exact>
-          <SignIn header={<Header authInfo={authInfo}/>} />
+          <SignIn authInfo={authInfo} />
         </Route>
         <Route path={RoutePath.FAVORITES} exact>
-          <Favorites data={favoriteHotels} header={<Header authInfo={authInfo}/>} />
+          <Favorites data={favoriteHotels} authInfo={authInfo} />
         </Route>
         <Route path={RoutePath.OFFER} exact>
-          <Room data={hotels[0]} header={<Header authInfo={authInfo}/>}/>
+          <Room data={hotels[0]} authInfo={authInfo} />
         </Route>
         <Route component={NotFound}></Route>
       </Switch>

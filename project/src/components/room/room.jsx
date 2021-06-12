@@ -1,14 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Header from '../header/header';
 
-function Room({data, header}) {
+function Room({data, authInfo}) {
   const {rating, images, isPremium, isFavorite, price, goods, host, description, maxAdults, bedrooms, type} = data;
   const {avatarUrl, isPro, name} = host;
 
   return (
     <div className="page">
-      {header}
+      <Header authInfo={authInfo}/>
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
@@ -266,7 +267,7 @@ function Room({data, header}) {
 
 Room.defaultProps = {
   data: {},
-  header: {},
+  authInfo: {},
 };
 
 Room.propTypes = {
@@ -287,7 +288,7 @@ Room.propTypes = {
       name: PropTypes.string,
     }),
   }),
-  header: PropTypes.object,
+  authInfo: PropTypes.object,
 };
 
 export default Room;

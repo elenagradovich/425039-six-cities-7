@@ -4,15 +4,16 @@ import {MAIN} from '../../constants/route-pathes';
 import {Link} from 'react-router-dom';
 import PlaceCardFavorite from '../place-card-favorite/place-card-favorite';
 import { getFavoriteCards } from '../../utils/common';
+import Header from '../header/header';
 
 function Favorites (props) {
-  const {data, header} = props;
+  const {data, authInfo} = props;
   const isEmpty = !(data && data.length !== 0);
   const hotels = !isEmpty ? getFavoriteCards(data) : [];
 
   return (
     <div className={`page ${isEmpty && 'pages--favorites-empty'}`}>
-      {header}
+      <Header authInfo={authInfo}/>
       <main className={`page__main page__main--favorites ${isEmpty && 'page__main--favorites-empty'}`}>
         <div className="page__favorites-container container">
           {!isEmpty && (
@@ -58,12 +59,12 @@ function Favorites (props) {
 
 Favorites.defaultProps = {
   data: [],
-  header: {},
+  authInfo: {},
 };
 
 Favorites.propTypes = {
   data: PropTypes.array,
-  header: PropTypes.object,
+  authInfo: PropTypes.object,
 };
 
 export default Favorites;
