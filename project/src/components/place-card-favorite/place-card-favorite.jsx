@@ -2,8 +2,14 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-function PlaceCardFavorite ({data}) {
-  const { previewImage, price, rating, title, type } = data;
+function PlaceCardFavorite ({hotel}) {
+  const {
+    previewImage,
+    price,
+    rating,
+    title,
+    type,
+  } = hotel;
   return (
     <article className="favorites__card place-card">
       <div className="favorites__image-wrapper place-card__image-wrapper">
@@ -40,11 +46,11 @@ function PlaceCardFavorite ({data}) {
 }
 
 PlaceCardFavorite.defaultProps = {
-  data: {},
+  hotel: {},
 };
 
 PlaceCardFavorite.propTypes = {
-  data: PropTypes.shape({
+  hotel: PropTypes.shape({
     title: PropTypes.string,
     type: PropTypes.string,
     rating: PropTypes.number,

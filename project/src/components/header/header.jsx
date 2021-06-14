@@ -6,7 +6,7 @@ import Hotels from '../hotels/hotels';
 
 function Header ({ authInfo }) {
   const {email} = authInfo;
-  const isLogged = authInfo && true;
+  const isLogged = !!email;
   return(
     <header className="header">
       <div className="container">

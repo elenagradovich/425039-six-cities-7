@@ -3,8 +3,19 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Header from '../header/header';
 
-function Room({data, authInfo}) {
-  const {rating, images, isPremium, isFavorite, price, goods, host, description, maxAdults, bedrooms, type} = data;
+function Room({hotels, authInfo}) {
+  const {
+    rating,
+    images,
+    isPremium,
+    isFavorite,
+    price,
+    goods,
+    host,
+    description,
+    maxAdults,
+    bedrooms,
+    type} = hotels[0];
   const {avatarUrl, isPro, name} = host;
 
   return (
@@ -266,28 +277,30 @@ function Room({data, authInfo}) {
 }
 
 Room.defaultProps = {
-  data: {},
+  hotels: {},
   authInfo: {},
 };
 
 Room.propTypes = {
-  data: PropTypes.shape({
-    rating: PropTypes.number,
-    images: PropTypes.arrayOf(PropTypes.string),
-    isPremium: PropTypes.bool,
-    isFavorite: PropTypes.bool,
-    price: PropTypes.number,
-    goods: PropTypes.arrayOf(PropTypes.string),
-    description: PropTypes.string,
-    maxAdults: PropTypes.number,
-    bedrooms: PropTypes.number,
-    type: PropTypes.string,
-    host: PropTypes.shape({
-      avatarUrl: PropTypes.string,
-      isPro: PropTypes.bool,
-      name: PropTypes.string,
+  hotels: PropTypes.arrayOf(
+    PropTypes.shape({
+      rating: PropTypes.number,
+      images: PropTypes.arrayOf(PropTypes.string),
+      isPremium: PropTypes.bool,
+      isFavorite: PropTypes.bool,
+      price: PropTypes.number,
+      goods: PropTypes.arrayOf(PropTypes.string),
+      description: PropTypes.string,
+      maxAdults: PropTypes.number,
+      bedrooms: PropTypes.number,
+      type: PropTypes.string,
+      host: PropTypes.shape({
+        avatarUrl: PropTypes.string,
+        isPro: PropTypes.bool,
+        name: PropTypes.string,
+      }),
     }),
-  }),
+  ),
   authInfo: PropTypes.object,
 };
 

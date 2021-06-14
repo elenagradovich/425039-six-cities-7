@@ -13,16 +13,16 @@ function App({hotels, favoriteHotels, authInfo}) {
     <BrowserRouter>
       <Switch>
         <Route path={RoutePath.MAIN} exact>
-          <Main data={hotels} authInfo={authInfo} />
+          <Main hotels={hotels} authInfo={authInfo} />
         </Route>
         <Route path={RoutePath.LOGIN} exact>
           <SignIn authInfo={authInfo} />
         </Route>
         <Route path={RoutePath.FAVORITES} exact>
-          <Favorites data={favoriteHotels} authInfo={authInfo} />
+          <Favorites hotels={favoriteHotels} authInfo={authInfo} />
         </Route>
         <Route path={RoutePath.OFFER} exact>
-          <Room data={hotels[0]} authInfo={authInfo} />
+          <Room hotels={hotels} authInfo={authInfo} />
         </Route>
         <Route component={NotFound}></Route>
       </Switch>

@@ -2,8 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 
-function PlaceCard ({data}) {
-  const {title, type, rating, isPremium, isFavorite, price, previewImage} = data;
+function PlaceCard ({hotel}) {
+  const {
+    title,
+    type,
+    rating,
+    isPremium,
+    isFavorite,
+    price,
+    previewImage,
+  } = hotel;
   return (
     <article className="cities__place-card place-card">
       {isPremium && (
@@ -44,11 +52,11 @@ function PlaceCard ({data}) {
 }
 
 PlaceCard.defaultProps = {
-  data: {},
+  hotel: {},
 };
 
 PlaceCard.propTypes = {
-  data: PropTypes.shape({
+  hotel: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
     type: PropTypes.string,

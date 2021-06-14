@@ -5,7 +5,7 @@ import Header from '../header/header';
 
 
 function Main(props) {
-  const {data, authInfo} = props;
+  const {hotels, authInfo} = props;
   return (
     <Fragment>
       <Header authInfo={authInfo}/>
@@ -66,7 +66,7 @@ function Main(props) {
                   <li className="places__option" tabIndex="0">Top rated first</li>
                 </ul>
               </form>
-              <Hotels data={data} />
+              <Hotels hotels={hotels} />
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
@@ -79,12 +79,12 @@ function Main(props) {
 }
 
 Main.defaultProps = {
-  data: [],
+  hotels: [],
   authInfo: {},
 };
 
 Main.propTypes = {
-  data: PropTypes.array,
+  hotels: PropTypes.array,
   authInfo: PropTypes.object,
 };
 

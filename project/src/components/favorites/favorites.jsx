@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import {MAIN} from '../../constants/route-pathes';
 import {Link} from 'react-router-dom';
 import PlaceCardFavorite from '../place-card-favorite/place-card-favorite';
-import { getFavoriteCards } from '../../utils/common';
+import { getFavoriteHotels } from '../../utils/common';
 import Header from '../header/header';
 
 function Favorites (props) {
-  const {data, authInfo} = props;
-  const isEmpty = !(data && data.length !== 0);
-  const hotels = !isEmpty ? getFavoriteCards(data) : [];
+  const { authInfo } = props;
+  let { hotels } = props;
+  const isEmpty = !hotels?.length;//Optional chaining operator
+
+  const hotelsByPlace = !isEmpty ? getFavoriteHotels(hotels) : [];
 
   return (
     <div className={`page ${isEmpty && 'pages--favorites-empty'}`}>
@@ -20,19 +22,18 @@ function Favorites (props) {
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
-                {[...hotels.keys()].map((place) => {
-                  place = `${place[0].toUpperCase()}${place.slice(1)}`;
+                {[...hotelsByPlace.keys()].map((location) => {
                   return (
-                    <li className="favorites__locations-items" key={place}>
+                    <li className="favorites__locations-items" key={location}>
                       <div className="favorites__locations locations locations--current">
                         <div className="locations__item">
                           <Link className="locations__item-link" to="#">
-                            <span>{place}</span>
+                            <span>{`${location[0]}${location.toLowerCase().slice(1)}`}</span>
                           </Link>
                         </div>
                       </div>
                       <div className="favorites__places">
-                        {hotels.get(place).map((hotel) => <PlaceCardFavorite data={hotel} key={hotel.id}/>)}
+                        {hotelsByPlace.get(location).map((hotel) => <PlaceCardFavorite hotel={hotel} key={hotel.id}/>)}
                       </div>
                     </li>);
                 })}
@@ -58,12 +59,12 @@ function Favorites (props) {
 }
 
 Favorites.defaultProps = {
-  data: [],
+  hotels: [],
   authInfo: {},
 };
 
 Favorites.propTypes = {
-  data: PropTypes.array,
+  hotels: PropTypes.array,
   authInfo: PropTypes.object,
 };
 
