@@ -12,3 +12,5 @@ export const getFavoriteHotels = (hotels) => {
   });
   return favoriteHotels;
 };
+
+

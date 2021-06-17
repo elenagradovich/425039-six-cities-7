@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { getOfferLink } from '../../constants/route-pathes';
 
-function PlaceCard ({hotel}) {
+function PlaceCard ({ hotel, titleHoverHandler }) {
   const {
+    id,
     title,
     type,
     rating,
@@ -13,13 +15,17 @@ function PlaceCard ({hotel}) {
     previewImage,
   } = hotel;
   return (
-    <article className="cities__place-card place-card">
+    <article
+      className="cities__place-card place-card"
+      onMouseOut={titleHoverHandler}
+      onMouseOver={() => titleHoverHandler(id)}
+    >
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
         </div>)}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link href="#">
+        <Link to="#">
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place"></img>
         </Link>
       </div>
@@ -31,7 +37,7 @@ function PlaceCard ({hotel}) {
           </div>
           <button className={`place-card__bookmark-button${isFavorite && '--active'} button`} type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
+              <use href="#icon-bookmark"></use>
             </svg>
             <span className="visually-hidden">To bookmarks</span>
           </button>
@@ -43,7 +49,7 @@ function PlaceCard ({hotel}) {
           </div>
         </div>s
         <h2 className="place-card__name">
-          <Link to="#">{title}</Link>
+          <Link to={getOfferLink(id)}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
@@ -66,6 +72,7 @@ PlaceCard.propTypes = {
     price: PropTypes.number,
     previewImage: PropTypes.string,
   }),
+  titleHoverHandler: PropTypes.func.isRequired,
 };
 
 export default PlaceCard;

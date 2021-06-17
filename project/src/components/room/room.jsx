@@ -1,9 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Header from '../header/header';
+import Reviews from '../reviews/reviews';
 
-function Room({hotels, authInfo}) {
+function Room({ hotels, authInfo, reviews, submitReview }) {
+  const { id } = useParams();
+  const hotel = hotels.find((item) => item.id.toString() === id);
   const {
     rating,
     images,
@@ -15,8 +18,10 @@ function Room({hotels, authInfo}) {
     description,
     maxAdults,
     bedrooms,
-    type} = hotels[0];
-  const {avatarUrl, isPro, name} = host;
+    type,
+  } = hotel;
+
+  const { avatarUrl, isPro, name } = host;
 
   return (
     <div className="page">
@@ -40,7 +45,7 @@ function Room({hotels, authInfo}) {
                 </h1>
                 <button className={`property__bookmark-button ${isFavorite && 'property__bookmark-button--active'} button`} type="button">
                   <svg className="property__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
+                    <use href="#icon-bookmark"></use>
                   </svg>
                   <span className="visually-hidden">To bookmarks</span>
                 </button>
@@ -90,81 +95,7 @@ function Room({hotels, authInfo}) {
                   </p>
                 </div>
               </div>
-              <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-                <ul className="reviews__list">
-                  <li className="reviews__item">
-                    <div className="reviews__user user">
-                      <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                        <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width="54" height="54" alt="Reviews avatar"></img>
-                      </div>
-                      <span className="reviews__user-name">
-                        Max
-                      </span>
-                    </div>
-                    <div className="reviews__info">
-                      <div className="reviews__rating rating">
-                        <div className="reviews__stars rating__stars">
-                          <span style={{width: `${rating * 10}%`}}></span>
-                          <span className="visually-hidden">Rating</span>
-                        </div>
-                      </div>
-                      <p className="reviews__text">
-                        A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.
-                        The building is green and from 18th century.
-                      </p>
-                      <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
-                    </div>
-                  </li>
-                </ul>
-                <form className="reviews__form form" action="#" method="post">
-                  <label className="reviews__label form__label" htmlFor="review">Your review</label>
-                  <div className="reviews__rating-form form__rating">
-                    <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio"></input>
-                    <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
-                      <svg className="form__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-
-                    <input className="form__rating-input visually-hidden" name="rating" value="4" id="4-stars" type="radio"></input>
-                    <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
-                      <svg className="form__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-
-                    <input className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio"></input>
-                    <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
-                      <svg className="form__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-
-                    <input className="form__rating-input visually-hidden" name="rating" value="2" id="2-stars" type="radio"></input>
-                    <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
-                      <svg className="form__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-
-                    <input className="form__rating-input visually-hidden" name="rating" value="1" id="1-star" type="radio"></input>
-                    <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
-                      <svg className="form__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-                  </div>
-                  <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
-                  <div className="reviews__button-wrapper">
-                    <p className="reviews__help">
-                      To submit review please make sure to set <span className="reviews__star">rating</span> and
-                      describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
-                    </p>
-                    <button className="reviews__submit form__submit button" type="submit" disabled="">Submit</button>
-                  </div>
-                </form>
-              </section>
+              <Reviews reviews={reviews} submitReview={submitReview}/>
             </div>
           </div>
           <section className="property__map map"></section>
@@ -182,12 +113,12 @@ function Room({hotels, authInfo}) {
                 <div className="place-card__info">
                   <div className="place-card__price-wrapper">
                     <div className="place-card__price">
-                      <b className="place-card__price-value">&euro;80</b>
+                      <b className="place-card__price-value">&euro;20</b>
                       <span className="place-card__price-text">&#47;&nbsp;night</span>
                     </div>
                     <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
                       <svg className="place-card__bookmark-icon" width="18" height="19">
-                        <use xlinkHref="#icon-bookmark"></use>
+                        <use href="#icon-bookmark"></use>
                       </svg>
                       <span className="visually-hidden">In bookmarks</span>
                     </button>
@@ -219,7 +150,7 @@ function Room({hotels, authInfo}) {
                     </div>
                     <button className="place-card__bookmark-button button" type="button">
                       <svg className="place-card__bookmark-icon" width="18" height="19">
-                        <use xlinkHref="#icon-bookmark"></use>
+                        <use href="#icon-bookmark"></use>
                       </svg>
                       <span className="visually-hidden">To bookmarks</span>
                     </button>
@@ -251,7 +182,7 @@ function Room({hotels, authInfo}) {
                     </div>
                     <button className="place-card__bookmark-button button" type="button">
                       <svg className="place-card__bookmark-icon" width="18" height="19">
-                        <use xlinkHref="#icon-bookmark"></use>
+                        <use href="#icon-bookmark"></use>
                       </svg>
                       <span className="visually-hidden">To bookmarks</span>
                     </button>
@@ -279,6 +210,7 @@ function Room({hotels, authInfo}) {
 Room.defaultProps = {
   hotels: {},
   authInfo: {},
+  reviews: [],
 };
 
 Room.propTypes = {
@@ -302,6 +234,8 @@ Room.propTypes = {
     }),
   ),
   authInfo: PropTypes.object,
+  reviews: PropTypes.array,
+  submitReview: PropTypes.func.isRequired,
 };
 
 export default Room;

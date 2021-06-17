@@ -1,8 +1,8 @@
 export const authInfo = {
-  'avatarUrl': 'img/1.png',
-  'email': 'Oliver.conner@gmail.com',
+  'avatarUrl': '../../../img/avatar-angelina.jpg',
+  'email': 'oliver.conner@gmail.com',
   'id': 1,
   'isPro': false,
-  'name': 'Oliver.conner',
+  'name': 'Oliver',
   'token': 'T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=',
 };

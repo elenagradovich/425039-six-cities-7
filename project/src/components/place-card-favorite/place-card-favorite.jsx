@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-function PlaceCardFavorite ({hotel}) {
+function PlaceCardFavorite ({ hotel }) {
   const {
     previewImage,
     price,
@@ -25,7 +25,7 @@ function PlaceCardFavorite ({hotel}) {
           </div>
           <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
+              <use href="#icon-bookmark"></use>
             </svg>
             <span className="visually-hidden">In bookmarks</span>
           </button>

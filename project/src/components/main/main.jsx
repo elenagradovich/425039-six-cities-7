@@ -4,8 +4,7 @@ import Hotels from '../hotels/hotels';
 import Header from '../header/header';
 
 
-function Main(props) {
-  const {hotels, authInfo} = props;
+function Main({ hotels, authInfo }) {
   return (
     <Fragment>
       <Header authInfo={authInfo}/>
@@ -56,7 +55,7 @@ function Main(props) {
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex="0"> Popular
                   <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
+                    <use href="#icon-arrow-select"></use>
                   </svg>
                 </span>
                 <ul className="places__options places__options--custom places__options--opened">
