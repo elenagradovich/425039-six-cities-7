@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import PlaceCard from '../place-card/place-card';
 
-function Hotels ({hotels}) {
+function Hotels ({ hotels }) {
+  const [activeCardId, setActiveCardId] = useState(null);
+
+  const titleHoverHandler = (id) => {
+    setActiveCardId(id);
+  };
+
   return(
     <div className="cities__places-list places__list tabs__content">
-      {hotels.map((item) => <PlaceCard hotel={item} key={item.id}/>)}
+      {hotels.map((item) => <PlaceCard hotel={item} titleHoverHandler={titleHoverHandler} key={item.id} />)}
     </div>
   );
 }
