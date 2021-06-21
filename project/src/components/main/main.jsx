@@ -1,10 +1,34 @@
-import React, {Fragment} from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Hotels from '../hotels/hotels';
 import Header from '../header/header';
+import Map from '../map/map';
+import { Link } from 'react-router-dom';
+import { Cities } from '../../constants/map';
+import { getHotelsOfCity } from '../../utils/common';
 
+const getCitiesLinks = (activeCity, setActiveCity) => (Object.keys(Cities).map((key) => (
+  <li className="locations__item" key={key}>
+    <Link className={`locations__item-link tabs__item ${activeCity === key ? 'tabs__item--active' : ''}`} to={'#'} onClick={() => setActiveCity(key)}>
+      <span>{ Cities[key] }</span>
+    </Link>
+  </li>),
+)
+);
 
 function Main({ hotels, authInfo }) {
+  const [activeCity, setActiveCity] = useState(Object.keys(Cities)[0]);
+  const [hotelsOfCity, setHotelsOfCity] = useState(getHotelsOfCity(hotels, activeCity));
+  const [hotelsCount, setHotelsCount] = useState(hotelsOfCity.length);
+
+  useEffect(() => {
+    setHotelsOfCity(getHotelsOfCity(hotels, activeCity));
+  }, [activeCity]);
+
+  useEffect(() => {
+    setHotelsCount(hotelsOfCity.length);
+  }, [hotelsOfCity]);
+
   return (
     <Fragment>
       <Header authInfo={authInfo}/>
@@ -13,36 +37,7 @@ function Main({ hotels, authInfo }) {
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
+              {getCitiesLinks(activeCity, setActiveCity)}
             </ul>
           </section>
         </div>
@@ -50,7 +45,7 @@ function Main({ hotels, authInfo }) {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
+              <b className="places__found">{hotelsCount} {hotelsCount === 1 ? 'place' : 'places'} to stay in {Cities[activeCity]}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex="0"> Popular
@@ -65,10 +60,15 @@ function Main({ hotels, authInfo }) {
                   <li className="places__option" tabIndex="0">Top rated first</li>
                 </ul>
               </form>
-              <Hotels hotels={hotels} />
+              <Hotels hotels={hotelsOfCity} />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map">
+                <Map
+                  hotels={hotelsOfCity}
+                  activeCity={activeCity}
+                />
+              </section>
             </div>
           </div>
         </div>
@@ -88,5 +88,3 @@ Main.propTypes = {
 };
 
 export default Main;
-
-

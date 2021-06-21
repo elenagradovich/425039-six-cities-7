@@ -47,7 +47,7 @@ function Favorites ({ authInfo, hotels }) {
       </main>
       <footer className="footer container">
         <Link className="footer__logo-link" to={MAIN}>
-          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"></img>
+          <img className="footer__logo" src="img/logo.svg" alt="6 map logo" width="64" height="33"></img>
         </Link>
       </footer>
     </div>
