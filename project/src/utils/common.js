@@ -28,10 +28,14 @@ export const getActiveCityCoords = (hotels, activeCityKey) => {
   return null;
 };
 
-export const getCityPoints = (hotels) => hotels.map((hotel) => new Object({
-  'lat': hotel?.location.latitude,
-  'lng': hotel?.location.longitude,
-}));
+export const getCityPoints = (hotels, activePlaceId) => [...hotels].map((hotel) => {
+  const hotelLocation = {
+    'lat': hotel?.location.latitude,
+    'lng': hotel?.location.longitude,
+    'current': hotel.id === activePlaceId,
+  };
+  return hotelLocation;
+});
 
 export const getHotelsOfCity = (hotels, activeCity) => {
   if(activeCity) {

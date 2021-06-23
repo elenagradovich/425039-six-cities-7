@@ -9,7 +9,11 @@ import { getHotelsOfCity } from '../../utils/common';
 
 const getCitiesLinks = (activeCity, setActiveCity) => (Object.keys(Cities).map((key) => (
   <li className="locations__item" key={key}>
-    <Link className={`locations__item-link tabs__item ${activeCity === key ? 'tabs__item--active' : ''}`} to={'#'} onClick={() => setActiveCity(key)}>
+    <Link
+      className={`locations__item-link tabs__item ${activeCity === key ? 'tabs__item--active' : ''}`}
+      to={'#'}
+      onClick={() => setActiveCity(key)}
+    >
       <span>{ Cities[key] }</span>
     </Link>
   </li>),
@@ -18,11 +22,13 @@ const getCitiesLinks = (activeCity, setActiveCity) => (Object.keys(Cities).map((
 
 function Main({ hotels, authInfo }) {
   const [activeCity, setActiveCity] = useState(Object.keys(Cities)[0]);
+  const [activeCardId, setActiveCardId] = useState(null);
   const [hotelsOfCity, setHotelsOfCity] = useState(getHotelsOfCity(hotels, activeCity));
   const [hotelsCount, setHotelsCount] = useState(hotelsOfCity.length);
 
   useEffect(() => {
     setHotelsOfCity(getHotelsOfCity(hotels, activeCity));
+    setActiveCardId(null);
   }, [activeCity]);
 
   useEffect(() => {
@@ -60,13 +66,14 @@ function Main({ hotels, authInfo }) {
                   <li className="places__option" tabIndex="0">Top rated first</li>
                 </ul>
               </form>
-              <Hotels hotels={hotelsOfCity} />
+              <Hotels hotels={hotelsOfCity} setActiveCardId={setActiveCardId} />
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
                 <Map
                   hotels={hotelsOfCity}
                   activeCity={activeCity}
+                  currentPlaceId={activeCardId}
                 />
               </section>
             </div>

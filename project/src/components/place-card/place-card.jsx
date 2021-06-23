@@ -18,7 +18,7 @@ function PlaceCard ({ hotel, titleHoverHandler }) {
     <article
       className="cities__place-card place-card"
       onMouseOut={titleHoverHandler}
-      onMouseOver={() => titleHoverHandler(id)}
+      onMouseOver={() => titleHoverHandler(hotel)}
     >
       {isPremium && (
         <div className="place-card__mark">

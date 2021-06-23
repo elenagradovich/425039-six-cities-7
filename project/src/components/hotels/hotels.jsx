@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import PlaceCard from '../place-card/place-card';
 
-function Hotels ({ hotels }) {
-  const [activeCardId, setActiveCardId] = useState(null);
+function Hotels ({ hotels, setActiveCardId }) {
 
-  const titleHoverHandler = (id) => {
-    setActiveCardId(id);
+  const titleHoverHandler = (card) => {
+    setActiveCardId(card.id);
   };
 
   return(
@@ -33,6 +32,7 @@ Hotels.propTypes = {
       previewImage: PropTypes.string,
     }),
   ),
+  setActiveCardId: PropTypes.func,
 };
 
 export default Hotels;
