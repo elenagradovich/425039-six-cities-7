@@ -16,30 +16,30 @@ export const getFavoriteHotels = (hotels) => {
 };
 
 export const getActiveCityCoords = (hotels, activeCityKey) => {
-  const activeCity = hotels.find((hotel) => hotel.city.name === Cities[activeCityKey]);
+  const activeCity = [...hotels].find((hotel) => hotel.city.name === Cities[activeCityKey]);
   if(activeCity) {
-    const activeCityLocation = activeCity?.city.location;
+    const { latitude, longitude, zoom } = activeCity?.city.location;
     return {
-      lat: activeCityLocation.latitude,
-      lng: activeCityLocation.longitude,
-      zoom: activeCityLocation.zoom,
+      lat: latitude,
+      lng: longitude,
+      zoom,
     };
   }
   return null;
 };
 
-export const getCityPoints = (hotels, activePlaceId) => [...hotels].map((hotel) => {
+export const getCityPoints = (hotels, activePlaceId) => [...hotels].map(({location, id}) => {
   const hotelLocation = {
-    'lat': hotel?.location.latitude,
-    'lng': hotel?.location.longitude,
-    'current': hotel.id === activePlaceId,
+    lat: location.latitude,
+    lng: location.longitude,
+    current: id === activePlaceId,
   };
   return hotelLocation;
 });
 
 export const getHotelsOfCity = (hotels, activeCity) => {
   if(activeCity) {
-    return hotels.filter((hotel) => hotel?.city.name === Cities[activeCity]);
+    return hotels.filter((hotel) => hotel.city.name === Cities[activeCity]);
   }
 
   return [];

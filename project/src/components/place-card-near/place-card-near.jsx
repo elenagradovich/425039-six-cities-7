@@ -38,7 +38,7 @@ function PlaceCardNear ({ hotel }) {
             <span style={{width: `${rating * 10}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
-        </div>s
+        </div>
         <h2 className="place-card__name">
           <Link to="#">{title}</Link>
         </h2>
@@ -53,16 +53,16 @@ PlaceCardNear.defaultProps = {
 };
 
 PlaceCardNear.propTypes = {
-  hotel: PropTypes.arrayOf(
-    PropTypes.shape({
-      previewImage:PropTypes.string,
-      price: PropTypes.number,
-      isFavorite: PropTypes.bool,
-      description: PropTypes.string,
-      type: PropTypes.string,
-      rating: PropTypes.number,
-    }),
-  ),
+  hotel: PropTypes.shape({
+    id: PropTypes.number,
+    title: PropTypes.string,
+    previewImage: PropTypes.string,
+    price: PropTypes.number,
+    isFavorite: PropTypes.bool,
+    description: PropTypes.string,
+    type: PropTypes.string,
+    rating: PropTypes.number,
+  }),
 };
 
 export default PlaceCardNear;

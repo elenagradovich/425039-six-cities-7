@@ -8,7 +8,8 @@ import Map from '../map/map';
 
 function Room({ hotels, authInfo, reviews, submitReview, nearPlaces }) {
   const { id } = useParams();
-  const hotel = hotels.find((item) => item.id.toString() === id);
+  const hotel = hotels.find((item) => item.id === +id);
+
   const {
     rating,
     images,
@@ -16,12 +17,12 @@ function Room({ hotels, authInfo, reviews, submitReview, nearPlaces }) {
     isFavorite,
     price,
     goods,
-    host,
+    host = {},
     description,
     maxAdults,
     bedrooms,
     type,
-    city,
+    city = '',
   } = hotel;
 
   const { name: cityName } = city;
@@ -104,9 +105,9 @@ function Room({ hotels, authInfo, reviews, submitReview, nearPlaces }) {
           </div>
           <section className="property__map map">
             <Map
-              hotels={nearPlaces}
-              activeCity={cityName.toUpperCase()}
-              currentPlaceId={hotel.id}
+              offers={[...nearPlaces, hotel]}
+              activeCity={cityName && cityName.toUpperCase()}
+              currentOfferId={+id}
             />
           </section>
         </section>

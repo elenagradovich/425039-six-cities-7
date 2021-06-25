@@ -157,7 +157,7 @@ export const hotels = [
     'id': 5,
     'images': ['../../../img/apartment-01.jpg', '../../../img/apartment-02.jpg', '../../../img/apartment-03.jpg',
       '../../../img/apartment-01.jpg', '../../../img/apartment-02.jpg', '../../../img/apartment-03.jpg'],
-    'isFavorite': false,
+    'isFavorite': true,
     'isPremium': true,
     'location': {
       'latitude': 48.86267751259838,

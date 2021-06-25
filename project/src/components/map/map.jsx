@@ -5,11 +5,10 @@ import 'leaflet/dist/leaflet.css';
 import useMap from '../../hooks/useMap';
 import { getActiveCityCoords, getCityPoints } from '../../utils/common';
 
-function Map({ hotels, activeCity, currentPlaceId }) {
+function Map({ offers, activeCity, currentOfferId }) {
   const mapRef = useRef(null);
-  const activeCityLocation = getActiveCityCoords(hotels, activeCity);
-  const pointsOfCity = getCityPoints(hotels, currentPlaceId);
-
+  const activeCityLocation = getActiveCityCoords(offers, activeCity);
+  const pointsOfCity = getCityPoints(offers, currentOfferId);
   const URL_MARKER_DEFAULT = '../../img/pin.svg';
   const URL_MARKER_CURRENT = '../../img/pin-active.svg';
 
@@ -29,13 +28,13 @@ function Map({ hotels, activeCity, currentPlaceId }) {
 
   useEffect(() => {
     if (map) {
-      pointsOfCity.forEach((point) => {
+      pointsOfCity.forEach(({ lat, lng, current }) => {
         leaflet
           .marker({
-            lat: point.lat,
-            lng: point.lng,
+            lat,
+            lng,
           }, {
-            icon: point.current ? currentIcon : defaultIcon,
+            icon: current ? currentIcon : defaultIcon,
           })
           .addTo(map);
       });
@@ -53,9 +52,9 @@ function Map({ hotels, activeCity, currentPlaceId }) {
 }
 
 Map.propTypes = {
-  hotels: PropTypes.array,
+  offers: PropTypes.array,
   activeCity: PropTypes.string,
-  currentPlaceId: PropTypes.number,
+  currentOfferId: PropTypes.number,
 };
 
 export default Map;

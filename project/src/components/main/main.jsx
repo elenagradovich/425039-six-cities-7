@@ -71,9 +71,9 @@ function Main({ hotels, authInfo }) {
             <div className="cities__right-section">
               <section className="cities__map map">
                 <Map
-                  hotels={hotelsOfCity}
+                  offers={hotelsOfCity}
                   activeCity={activeCity}
-                  currentPlaceId={activeCardId}
+                  currentOfferId={activeCardId}
                 />
               </section>
             </div>

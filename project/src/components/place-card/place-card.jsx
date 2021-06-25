@@ -47,7 +47,7 @@ function PlaceCard ({ hotel, titleHoverHandler }) {
             <span style={{width: `${rating * 10}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
-        </div>s
+        </div>
         <h2 className="place-card__name">
           <Link to={getOfferLink(id)}>{title}</Link>
         </h2>

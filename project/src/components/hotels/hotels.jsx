@@ -4,8 +4,8 @@ import PlaceCard from '../place-card/place-card';
 
 function Hotels ({ hotels, setActiveCardId }) {
 
-  const titleHoverHandler = (card) => {
-    setActiveCardId(card.id);
+  const titleHoverHandler = ({id}) => {
+    setActiveCardId(id);
   };
 
   return(
