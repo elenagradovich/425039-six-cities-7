@@ -1,5 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
+
+const getReviewRatingElements = (clickHandler) => {
+  const ratingValues = ['terribly', 'badly', 'not bad', 'good', 'perfect'];
+  return ratingValues.map((item, index) => {
+    const newIndex = ratingValues.length - index;
+    const element = ratingValues[newIndex - 1];
+    return (
+      <Fragment key={element}>
+        <input
+          className="form__rating-input visually-hidden"
+          name="rating"
+          value={newIndex}
+          id={`${newIndex}-stars`}
+          type="radio"
+          onClick={clickHandler}
+        >
+        </input>
+        <label htmlFor={`${newIndex}-stars`} className="reviews__rating-label form__rating-label" title={element}>
+          <svg className="form__star-image" width="37" height="33">
+            <use href="#icon-star"></use>
+          </svg>
+        </label>
+      </Fragment>
+    );
+  });
+};
 
 function ReviewForm ({ submitReview }) {
   const [rating, setRating] = useState(null);
@@ -27,82 +53,8 @@ function ReviewForm ({ submitReview }) {
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          value="5"
-          id="5-stars"
-          type="radio"
-          onClick={clickRatingHandler}
-        >
-        </input>
-        <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
-          <svg className="form__star-image" width="37" height="33">
-            <use href="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          value="4"
-          id="4-stars"
-          type="radio"
-          onClick={clickRatingHandler}
-        >
-        </input>
-        <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
-          <svg className="form__star-image" width="37" height="33">
-            <use href="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          value="3"
-          id="3-stars"
-          type="radio"
-          onClick={clickRatingHandler}
-        >
-        </input>
-        <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
-          <svg className="form__star-image" width="37" height="33">
-            <use href="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          value="2"
-          id="2-stars"
-          type="radio"
-          onClick={clickRatingHandler}
-        >
-        </input>
-        <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
-          <svg className="form__star-image" width="37" height="33">
-            <use href="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          value="1"
-          id="1-star"
-          type="radio"
-          onClick={clickRatingHandler}
-        >
-        </input>
-        <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
-          <svg className="form__star-image" width="37" height="33">
-            <use href="#icon-star"></use>
-          </svg>
-        </label>
+        {getReviewRatingElements(clickRatingHandler)}
       </div>
-
       <textarea
         className="reviews__textarea form__textarea"
         id="review"

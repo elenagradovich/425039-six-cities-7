@@ -8,7 +8,7 @@ import Room from '../room/room';
 import NotFound from '../not-found/not-found';
 import * as RoutePath from '../../constants/route-pathes';
 
-function App({ hotels, favoriteHotels, authInfo, reviews, submitReview }) {
+function App({ hotels, favoriteHotels, authInfo, reviews, nearPlaces, submitReview }) {
   return (
     <BrowserRouter>
       <Switch>
@@ -22,7 +22,13 @@ function App({ hotels, favoriteHotels, authInfo, reviews, submitReview }) {
           <Favorites hotels={ favoriteHotels } authInfo={ authInfo } />
         </Route>
         <Route path={ RoutePath.OFFER } exact>
-          <Room hotels={ hotels } authInfo={ authInfo } reviews={ reviews } submitReview={ submitReview }/>
+          <Room
+            hotels={ hotels }
+            authInfo={ authInfo }
+            reviews={ reviews }
+            nearPlaces={nearPlaces}
+            submitReview={ submitReview }
+          />
         </Route>
         <Route component={NotFound}></Route>
       </Switch>
@@ -43,6 +49,7 @@ App.propTypes = {
   favoriteHotels: PropTypes.array,
   authInfo: PropTypes.object,
   reviews: PropTypes.array,
+  nearPlaces: PropTypes.array,
   submitReview: PropTypes.func.isRequired,
 };
 
