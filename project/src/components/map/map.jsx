@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import useMap from '../../hooks/useMap';
+import { connect } from 'react-redux';
 import { getActiveCityCoords, getCityPoints } from '../../utils/common';
 
-function Map({ offers, activeCity, currentOfferId }) {
+function Map({ currentOfferId, offers, city: activeCity }) {
   const mapRef = useRef(null);
   const activeCityLocation = getActiveCityCoords(offers, activeCity);
   const pointsOfCity = getCityPoints(offers, currentOfferId);
@@ -51,10 +52,19 @@ function Map({ offers, activeCity, currentOfferId }) {
   );
 }
 
+const mapStateToProps = (state) => ({
+  city: state.city,
+  offers: state.offers,
+});
+
 Map.propTypes = {
   offers: PropTypes.array,
-  activeCity: PropTypes.string,
   currentOfferId: PropTypes.number,
+  city: PropTypes.string,
 };
 
-export default Map;
+export { Map };
+export default connect(
+  mapStateToProps,
+  null,
+)(Map);

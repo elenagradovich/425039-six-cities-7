@@ -41,8 +41,44 @@ export const getHotelsOfCity = (hotels, activeCity) => {
   if(activeCity) {
     return hotels.filter((hotel) => hotel.city.name === Cities[activeCity]);
   }
-
   return [];
+};
+
+export const sortOffers = (offers, sortType) => {
+  switch(sortType) {
+    case 'HIGH_TO_LOW':
+      return offers.sort(({price: pricePrev}, {price: priceNext}) => {
+        if(pricePrev < priceNext) {
+          return 1;
+        }
+        if(pricePrev > priceNext) {
+          return  -1;
+        }
+        return 0;
+      });
+    case 'LOW_TO_HIGH':
+      return offers.sort(({price: pricePrev}, {price: priceNext}) => {
+        if(pricePrev > priceNext) {
+          return 1;
+        }
+        if(pricePrev < priceNext) {
+          return  -1;
+        }
+        return 0;
+      });
+    case 'TOP_RATED_FIRST':
+      return offers.sort(({rating: ratingPrev}, {rating: ratingNext}) => {
+        if(ratingNext > ratingPrev) {
+          return 1;
+        }
+        if(ratingNext < ratingPrev) {
+          return  -1;
+        }
+        return 0;
+      });
+    default:
+      return offers;
+  }
 };
 
 
