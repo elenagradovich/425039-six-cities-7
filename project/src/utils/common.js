@@ -45,40 +45,16 @@ export const getHotelsOfCity = (hotels, activeCity) => {
 };
 
 export const sortOffers = (offers, sortType) => {
-  switch(sortType) {
-    case 'HIGH_TO_LOW':
-      return offers.sort(({price: pricePrev}, {price: priceNext}) => {
-        if(pricePrev < priceNext) {
-          return 1;
-        }
-        if(pricePrev > priceNext) {
-          return  -1;
-        }
-        return 0;
-      });
-    case 'LOW_TO_HIGH':
-      return offers.sort(({price: pricePrev}, {price: priceNext}) => {
-        if(pricePrev > priceNext) {
-          return 1;
-        }
-        if(pricePrev < priceNext) {
-          return  -1;
-        }
-        return 0;
-      });
-    case 'TOP_RATED_FIRST':
-      return offers.sort(({rating: ratingPrev}, {rating: ratingNext}) => {
-        if(ratingNext > ratingPrev) {
-          return 1;
-        }
-        if(ratingNext < ratingPrev) {
-          return  -1;
-        }
-        return 0;
-      });
-    default:
-      return offers;
+  const SortTypes = {
+    HIGH_TO_LOW: ({price: pricePrev}, {price: priceNext}) => (priceNext - pricePrev),
+    LOW_TO_HIGH: ({price: pricePrev}, {price: priceNext}) => (pricePrev - priceNext),
+    TOP_RATED_FIRST: ({rating: ratingPrev}, {rating: ratingNext}) => (ratingNext - ratingPrev),
+  };
+  if(sortType in SortTypes) {
+    return [...offers].sort(SortTypes[sortType]);
   }
+
+  return offers;
 };
 
 

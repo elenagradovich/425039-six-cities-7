@@ -7,7 +7,7 @@ const getOptions = (activeSortValue, optionClickHandler) => Object.keys(SortType
     className={`places__option ${key === activeSortValue ? 'places__option--active': ''}`}
     tabIndex="0"
     data-value={key}
-    onClick={(e) => optionClickHandler(e)}
+    onClick={() => optionClickHandler(key)}
   >
     {SortTypes[key]}
   </li>));
@@ -16,12 +16,7 @@ const getOptions = (activeSortValue, optionClickHandler) => Object.keys(SortType
 function Sorting ({ sortType, setSortType }) {
   const [sortingState, setSortingState] = useState(false);
 
-  const optionClickHandler = (e) => {
-    e.preventDefault();
-    if(e.target.classList.contains('places__option')) {
-      setSortType(e.target.dataset.value);
-    }
-  };
+  const optionClickHandler = (type) => setSortType(type);
 
   return (
     <form className="places__sorting" action="#" method="get" onClick={(e) => {

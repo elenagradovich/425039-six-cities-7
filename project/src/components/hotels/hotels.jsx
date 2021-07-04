@@ -9,7 +9,7 @@ function Hotels ({ offers: hotels, setActiveCardId, sortType }) {
     setActiveCardId(id);
   };
 
-  const sortedHotels = sortOffers(hotels, sortType);
+  const sortedHotels = hotels.length > 1 ? sortOffers(hotels, sortType) : hotels;
 
   return(
     <div className="cities__places-list places__list tabs__content">

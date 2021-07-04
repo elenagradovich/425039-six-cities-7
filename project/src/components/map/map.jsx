@@ -6,9 +6,9 @@ import useMap from '../../hooks/useMap';
 import { connect } from 'react-redux';
 import { getActiveCityCoords, getCityPoints } from '../../utils/common';
 
-function Map({ currentOfferId, offers, city: activeCity }) {
+function Map({ currentOfferId, offers, city }) {
   const mapRef = useRef(null);
-  const activeCityLocation = getActiveCityCoords(offers, activeCity);
+  const activeCityLocation = getActiveCityCoords(offers, city);
   const pointsOfCity = getCityPoints(offers, currentOfferId);
   const URL_MARKER_DEFAULT = '../../img/pin.svg';
   const URL_MARKER_CURRENT = '../../img/pin-active.svg';
