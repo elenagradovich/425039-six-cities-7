@@ -1,26 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PlaceCard from '../place-card/place-card';
+import { connect } from 'react-redux';
+import { sortOffers } from '../../utils/common';
 
-function Hotels ({ hotels, setActiveCardId }) {
-
+function Hotels ({ offers: hotels, setActiveCardId, sortType }) {
   const titleHoverHandler = ({id}) => {
     setActiveCardId(id);
   };
 
+  const sortedHotels = hotels.length > 1 ? sortOffers(hotels, sortType) : hotels;
+
   return(
     <div className="cities__places-list places__list tabs__content">
-      {hotels.map((item) => <PlaceCard hotel={item} titleHoverHandler={titleHoverHandler} key={item.id} />)}
+      {sortedHotels.map((item) => <PlaceCard hotel={item} titleHoverHandler={titleHoverHandler} key={item.id} />)}
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+  offers: state.offers,
+});
 
 Hotels.defaultProps = {
   hotels: [],
 };
 
 Hotels.propTypes = {
-  hotels: PropTypes.arrayOf(
+  offers: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
       title: PropTypes.string,
@@ -33,6 +40,11 @@ Hotels.propTypes = {
     }),
   ),
   setActiveCardId: PropTypes.func,
+  sortType: PropTypes.string,
 };
 
-export default Hotels;
+export { Hotels };
+export default connect(
+  mapStateToProps,
+  null,
+)(Hotels);
