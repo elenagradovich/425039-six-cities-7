@@ -8,9 +8,9 @@ import CitiesList from '../cities-list/cities-list';
 import { Cities } from '../../constants/map';
 import { connect } from 'react-redux';
 
-function Main({ authInfo, offers: hotelsOfCity, city: activeCity }) {
+function Main({ authInfo, offers, city: activeCity }) {
   const [activeCardId, setActiveCardId] = useState(null);
-  const [hotelsCount, setHotelsCount] = useState(hotelsOfCity.length);
+  const [hotelsCount, setHotelsCount] = useState(offers.length);
   const [sortType, setSortType] = useState('POPULAR');
 
   useEffect(() => {
@@ -18,8 +18,8 @@ function Main({ authInfo, offers: hotelsOfCity, city: activeCity }) {
   }, [activeCity]);
 
   useEffect(() => {
-    setHotelsCount(hotelsOfCity.length);
-  }, [hotelsOfCity]);
+    setHotelsCount(offers.length);
+  }, [offers]);
 
   return (
     <Fragment>

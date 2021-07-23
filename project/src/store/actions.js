@@ -1,5 +1,5 @@
 import { ActionTypes } from './action-types';
-import { hotels} from '../mocks/hotels';
+import { hotels } from '../mocks/hotels';
 import { getHotelsOfCity } from '../utils/common';
 
 export const updateCity = (city) => ({
@@ -11,3 +11,11 @@ export const updateOffersOfCity = (city) => ({
   type: ActionTypes.CHANGE_OFFERS_OF_CITY,
   payload: getHotelsOfCity(hotels, city),
 });
+
+export const loadHotels = () => (hotels) => ({
+  type: ActionTypes.LOAD_HOTELS,
+  payload: hotels,
+});
+
+
+

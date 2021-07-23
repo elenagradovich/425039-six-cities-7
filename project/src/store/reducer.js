@@ -8,7 +8,11 @@ const initialOffersOfCity = getHotelsOfCity(hotels, initialCity);
 
 const initialState = Immutable({
   city: initialCity,
-  offers: initialOffersOfCity,
+  offers: [],
+  hotels: [],
+  authInfo: {},
+  nearPlaces: [],
+  reviews: [],
 });
 
 export const reducer = (state = initialState, action) => {
@@ -22,6 +26,11 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         offers: action.payload,
+      };
+    case ActionTypes.LOAD_HOTELS:
+      return {
+        ...state,
+        hotels: action.payload,
       };
     default:
       return state;

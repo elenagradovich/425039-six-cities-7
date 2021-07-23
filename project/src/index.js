@@ -1,25 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
-import { createStore } from 'redux'; //инициализируем хранилище
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { reducer } from './store/reducer';
-import { hotels, favoriteHotels } from './mocks/hotels';
+import { favoriteHotels } from './mocks/hotels';
 import { authInfo } from './mocks/auth-info';
 import { reviews, submitReview } from './mocks/reviews';
 import { nearPlaces } from './mocks/near-places';
+import thunk  from 'redux-thunk';
+import { fetchHotels } from './store/api-actions';
+import { createAPI } from './services/api';
 
+const api = createAPI();
+debugger
 const store = createStore(
   reducer,
-  composeWithDevTools(),
+  composeWithDevTools(
+    applyMiddleware(thunk.withExtraArgument(api)),
+  ),
 );
+
+store.dispatch(fetchHotels());
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <App
-        hotels={hotels}
         favoriteHotels={favoriteHotels}
         authInfo={authInfo}
         reviews={reviews}

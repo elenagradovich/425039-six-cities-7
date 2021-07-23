@@ -8,12 +8,12 @@ import Room from '../room/room';
 import NotFound from '../not-found/not-found';
 import * as RoutePath from '../../constants/route-pathes';
 
-function App({ hotels, favoriteHotels, authInfo, reviews, nearPlaces, submitReview }) {
+function App({ favoriteHotels, authInfo, reviews, nearPlaces, submitReview }) {
   return (
     <BrowserRouter>
       <Switch>
         <Route path={ RoutePath.MAIN } exact>
-          <Main hotels={ hotels } authInfo={ authInfo } />
+          <Main authInfo={ authInfo } />
         </Route>
         <Route path={ RoutePath.LOGIN } exact>
           <SignIn authInfo={ authInfo } />
@@ -38,14 +38,12 @@ function App({ hotels, favoriteHotels, authInfo, reviews, nearPlaces, submitRevi
 
 
 App.defaultProps = {
-  hotels: [],
   favoriteHotels: [],
   authInfo: {},
   reviews: [],
 };
 
 App.propTypes = {
-  hotels: PropTypes.array,
   favoriteHotels: PropTypes.array,
   authInfo: PropTypes.object,
   reviews: PropTypes.array,
