@@ -7,8 +7,15 @@ import Favorites from '../favorites/favorites';
 import Room from '../room/room';
 import NotFound from '../not-found/not-found';
 import * as RoutePath from '../../constants/route-pathes';
+import { connect } from 'react-redux';
+import Spinner from '../spinner/spinner';
 
-function App({ favoriteHotels, authInfo, reviews, nearPlaces, submitReview }) {
+function App({ favoriteHotels, authInfo, reviews, nearPlaces, submitReview, isDataLoaded }) {
+  if (!isDataLoaded) {
+    return (
+      <Spinner />
+    );
+  }
   return (
     <BrowserRouter>
       <Switch>
@@ -35,19 +42,21 @@ function App({ favoriteHotels, authInfo, reviews, nearPlaces, submitReview }) {
   );
 }
 
-
-App.defaultProps = {
-  favoriteHotels: [],
-  authInfo: {},
-  reviews: [],
-};
-
 App.propTypes = {
   favoriteHotels: PropTypes.array,
   authInfo: PropTypes.object,
   reviews: PropTypes.array,
   nearPlaces: PropTypes.array,
   submitReview: PropTypes.func.isRequired,
+  isDataLoaded: PropTypes.bool.isRequired,
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  isDataLoaded: state.isDataLoaded,
+});
+
+export { App };
+export default connect(
+  mapStateToProps,
+  null,
+)(App);

@@ -10,6 +10,7 @@ const initialState = Immutable({
   authInfo: {},
   nearPlaces: [],
   reviews: [],
+  isDataLoaded: false,
 });
 
 export const reducer = (state = initialState, action = {}) => {
@@ -29,6 +30,7 @@ export const reducer = (state = initialState, action = {}) => {
       return {
         ...state,
         hotels,
+        isDataLoaded: true,
       };
     }
     default:
