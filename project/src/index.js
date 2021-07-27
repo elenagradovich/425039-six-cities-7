@@ -10,11 +10,11 @@ import { authInfo } from './mocks/auth-info';
 import { reviews, submitReview } from './mocks/reviews';
 import { nearPlaces } from './mocks/near-places';
 import thunk  from 'redux-thunk';
-import { fetchHotels } from './store/api-actions';
+import { loadHotels } from './store/actions';
 import { createAPI } from './services/api';
 
 const api = createAPI();
-debugger
+
 const store = createStore(
   reducer,
   composeWithDevTools(
@@ -22,7 +22,7 @@ const store = createStore(
   ),
 );
 
-store.dispatch(fetchHotels());
+store.dispatch(loadHotels());
 
 ReactDOM.render(
   <React.StrictMode>

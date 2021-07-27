@@ -6,7 +6,7 @@ import Reviews from '../reviews/reviews';
 import NearPlaces from '../near-places/near-places';
 import Map from '../map/map';
 
-function Room({ hotels, authInfo, reviews, submitReview, nearPlaces }) {
+function Room({ authInfo, reviews, submitReview, nearPlaces, hotels }) {
   const { id } = useParams();
   const hotel = hotels.find((item) => item.id === +id);
 
@@ -22,10 +22,8 @@ function Room({ hotels, authInfo, reviews, submitReview, nearPlaces }) {
     maxAdults,
     bedrooms,
     type,
-    city = '',
   } = hotel;
 
-  const { name: cityName } = city;
   const { avatarUrl, isPro, name } = host;
 
   return (
@@ -105,13 +103,12 @@ function Room({ hotels, authInfo, reviews, submitReview, nearPlaces }) {
           </div>
           <section className="property__map map">
             <Map
-              offers={[...nearPlaces, hotel]}
-              activeCity={cityName && cityName.toUpperCase()}
               currentOfferId={+id}
+              offers={[...nearPlaces, hotel]}
             />
           </section>
         </section>
-        <div className="container">
+        <div className="container">s
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <NearPlaces places={nearPlaces} />
@@ -121,13 +118,6 @@ function Room({ hotels, authInfo, reviews, submitReview, nearPlaces }) {
     </div>
   );
 }
-
-Room.defaultProps = {
-  hotels: {},
-  authInfo: {},
-  reviews: [],
-  nearPlaces: [],
-};
 
 Room.propTypes = {
   hotels: PropTypes.arrayOf(

@@ -17,10 +17,10 @@ const getCitiesLinks = (activeCity, updateData) => (Object.keys(Cities).map((key
   </li>),
 ));
 
-function CitiesList ({ city: activeCity, onUpdateCity, onUpdateOffersOfCity }) {
+function CitiesList ({ city: activeCity, hotels, onUpdateCity, onUpdateOffersOfCity }) {
   const updateData = (city) => {
     onUpdateCity(city);
-    onUpdateOffersOfCity(city);
+    onUpdateOffersOfCity(hotels, city);
   };
 
   return (
@@ -32,14 +32,15 @@ function CitiesList ({ city: activeCity, onUpdateCity, onUpdateOffersOfCity }) {
 
 const mapStateToProps = (state) => ({
   city: state.city,
+  hotels: state.hotels,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onUpdateCity(city) {
     dispatch(updateCity(city));
   },
-  onUpdateOffersOfCity(city) {
-    dispatch(updateOffersOfCity(city));
+  onUpdateOffersOfCity(hotels, city) {
+    dispatch(updateOffersOfCity(hotels, city));
   },
 });
 
@@ -47,6 +48,7 @@ CitiesList.propTypes = {
   city: PropTypes.string,
   onUpdateCity: PropTypes.func,
   onUpdateOffersOfCity: PropTypes.func,
+  hotels: PropTypes.array,
 };
 
 export { CitiesList };

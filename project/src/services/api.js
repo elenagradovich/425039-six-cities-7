@@ -18,13 +18,9 @@ export const createAPI = (onUnauthorized) => {
     },
   });
 
-  const onSuccess = (response) => {
-    debugger
-    return response;
-  }
+  const onSuccess = (response) => response;
 
   const onFail = (err) => {
-    debugger
     const { response } = err;
 
     if (response.status === HttpCode.UNAUTHORIZED) {

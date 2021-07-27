@@ -5,7 +5,7 @@ import { getOfferLink } from '../../constants/route-pathes';
 import { connect } from 'react-redux';
 import { updateCity, updateOffersOfCity } from '../../store/actions';
 
-function PlaceCard ({ hotel, titleHoverHandler, onUpdateCity, onUpdateOffersOfCity }) {
+function PlaceCard ({ hotel, titleHoverHandler, onUpdateCity, onUpdateOffersOfCity, hotels }) {
   const {
     id,
     title,
@@ -56,7 +56,7 @@ function PlaceCard ({ hotel, titleHoverHandler, onUpdateCity, onUpdateOffersOfCi
         <h2 className="place-card__name">
           <Link to={getOfferLink(id)} onClick={() => {
             onUpdateCity(name.toUpperCase());
-            onUpdateOffersOfCity(name.toUpperCase());
+            onUpdateOffersOfCity(hotels, name.toUpperCase());
           }}
           >
             {title}
@@ -67,10 +67,6 @@ function PlaceCard ({ hotel, titleHoverHandler, onUpdateCity, onUpdateOffersOfCi
     </article>
   );
 }
-
-PlaceCard.defaultProps = {
-  hotel: {},
-};
 
 PlaceCard.propTypes = {
   hotel: PropTypes.shape({
@@ -89,20 +85,25 @@ PlaceCard.propTypes = {
   titleHoverHandler: PropTypes.func.isRequired,
   onUpdateCity: PropTypes.func,
   onUpdateOffersOfCity: PropTypes.func,
+  hotels: PropTypes.array,
 };
+
+const mapStateToProps = (state) => ({
+  hotels: state.hotels,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   onUpdateCity(city) {
     dispatch(updateCity(city));
   },
-  onUpdateOffersOfCity(city) {
-    dispatch(updateOffersOfCity(city));
+  onUpdateOffersOfCity(hotels, city) {
+    dispatch(updateOffersOfCity(hotels, city));
   },
 });
 
 export { PlaceCard };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(PlaceCard);

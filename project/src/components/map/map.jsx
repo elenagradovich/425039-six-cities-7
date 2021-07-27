@@ -6,10 +6,10 @@ import useMap from '../../hooks/useMap';
 import { connect } from 'react-redux';
 import { getActiveCityCoords, getCityPoints } from '../../utils/common';
 
-function Map({ currentOfferId, offers, city }) {
+function Map({ currentOfferId, offersOfCity, city }) {
   const mapRef = useRef(null);
-  const activeCityLocation = getActiveCityCoords(offers, city);
-  const pointsOfCity = getCityPoints(offers, currentOfferId);
+  const activeCityLocation = getActiveCityCoords(offersOfCity, city);
+  const pointsOfCity = getCityPoints(offersOfCity, currentOfferId);
   const URL_MARKER_DEFAULT = '../../img/pin.svg';
   const URL_MARKER_CURRENT = '../../img/pin-active.svg';
 
@@ -54,11 +54,10 @@ function Map({ currentOfferId, offers, city }) {
 
 const mapStateToProps = (state) => ({
   city: state.city,
-  offers: state.offers,
 });
 
 Map.propTypes = {
-  offers: PropTypes.array,
+  offersOfCity: PropTypes.array,
   currentOfferId: PropTypes.number,
   city: PropTypes.string,
 };

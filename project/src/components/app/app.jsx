@@ -23,7 +23,6 @@ function App({ favoriteHotels, authInfo, reviews, nearPlaces, submitReview }) {
         </Route>
         <Route path={ RoutePath.OFFER } exact>
           <Room
-            hotels={ hotels }
             authInfo={ authInfo }
             reviews={ reviews }
             nearPlaces={nearPlaces}
