@@ -1,4 +1,5 @@
 import { Cities } from '../constants/map';
+import { AuthorizationStatus } from '../constants/authorization-status';
 
 export const getFavoriteHotels = (hotels) => {
   const favoriteHotels = new Map();
@@ -56,5 +57,8 @@ export const sortOffers = (offers, sortType) => {
 
   return offers;
 };
+
+export const isCheckedAuth = (authorizationStatus) =>
+  authorizationStatus === AuthorizationStatus.UNKNOWN;
 
 

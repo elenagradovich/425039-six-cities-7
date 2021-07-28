@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Router as BrowserRouter, Route, Switch } from 'react-router-dom';
+import PrivateRoute from '../private/private-route';
 import PropTypes from 'prop-types';
 import Main from '../main/main';
 import SignIn from '../sign-in/sign-in';
@@ -9,50 +10,49 @@ import NotFound from '../not-found/not-found';
 import * as RoutePath from '../../constants/route-pathes';
 import { connect } from 'react-redux';
 import Spinner from '../spinner/spinner';
+import { isCheckedAuth } from '../../utils/common';
+import browserHistory from '../../history/browser-history';
 
-function App({ favoriteHotels, authInfo, reviews, nearPlaces, submitReview, isDataLoaded }) {
-  if (!isDataLoaded) {
+function App({ reviews, nearPlaces, submitReview, isDataLoaded, authorizationStatus }) {
+  if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
     return (
       <Spinner />
     );
   }
   return (
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
       <Switch>
-        <Route path={ RoutePath.MAIN } exact>
-          <Main authInfo={ authInfo } />
-        </Route>
-        <Route path={ RoutePath.LOGIN } exact>
-          <SignIn authInfo={ authInfo } />
-        </Route>
-        <Route path={ RoutePath.FAVORITES } exact>
-          <Favorites hotels={ favoriteHotels } authInfo={ authInfo } />
-        </Route>
+        <Route path={ RoutePath.MAIN } exact component={ Main } />
+        <Route path={ RoutePath.LOGIN } exact component={ SignIn } />
         <Route path={ RoutePath.OFFER } exact>
           <Room
-            authInfo={ authInfo }
             reviews={ reviews }
             nearPlaces={nearPlaces}
             submitReview={ submitReview }
           />
         </Route>
-        <Route component={NotFound}></Route>
+        <PrivateRoute
+          render={() => <Favorites />}
+          path={ RoutePath.FAVORITES }
+          exact
+        />
+        <Route component={ NotFound } />
       </Switch>
     </BrowserRouter>
   );
 }
 
 App.propTypes = {
-  favoriteHotels: PropTypes.array,
-  authInfo: PropTypes.object,
   reviews: PropTypes.array,
   nearPlaces: PropTypes.array,
   submitReview: PropTypes.func.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   isDataLoaded: state.isDataLoaded,
+  authorizationStatus: state.authorizationStatus,
 });
 
 export { App };

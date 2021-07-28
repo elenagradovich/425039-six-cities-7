@@ -8,14 +8,13 @@ import CitiesList from '../cities-list/cities-list';
 import { Cities } from '../../constants/map';
 import { connect } from 'react-redux';
 
-function Main({ authInfo, offersOfCity, city: activeCity }) {
+function Main({ offersOfCity=[], city=null }) {
   const [activeCardId, setActiveCardId] = useState(null);
   const [hotelsCount, setHotelsCount] = useState(offersOfCity.length);
   const [sortType, setSortType] = useState('POPULAR');
-
   useEffect(() => {
     setActiveCardId(null);
-  }, [activeCity]);
+  }, [city]);
 
   useEffect(() => {
     setHotelsCount(offersOfCity.length);
@@ -23,7 +22,7 @@ function Main({ authInfo, offersOfCity, city: activeCity }) {
 
   return (
     <Fragment>
-      <Header authInfo={authInfo}/>
+      <Header />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
@@ -35,7 +34,7 @@ function Main({ authInfo, offersOfCity, city: activeCity }) {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{hotelsCount} {hotelsCount === 1 ? 'place' : 'places'} to stay in {Cities[activeCity]}</b>
+              <b className="places__found">{hotelsCount} {hotelsCount === 1 ? 'place' : 'places'} to stay in {Cities[city]}</b>
               <Sorting sortType={sortType} setSortType={setSortType} />
               <Hotels setActiveCardId={setActiveCardId} sortType={sortType} />
             </section>
@@ -62,7 +61,6 @@ const mapStateToProps = (state) => ({
 Main.propTypes = {
   offersOfCity: PropTypes.array,
   city: PropTypes.string,
-  authInfo: PropTypes.object,
 };
 
 export { Main };

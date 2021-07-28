@@ -1,18 +1,19 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-import {MAIN, LOGIN, FAVORITES} from '../../constants/route-pathes';
+import { Link } from 'react-router-dom';
+import { MAIN, LOGIN, FAVORITES } from '../../constants/route-pathes';
 import PropTypes from 'prop-types';
-import Hotels from '../hotels/hotels';
+import { connect } from 'react-redux';
+import { AuthorizationStatus } from '../../constants/authorization-status';
 
-function Header ({ authInfo }) {
-  const {email} = authInfo;
-  const isLogged = !!email;
+function Header ({ authInfo, authorizationStatus }) {
+  const { email } = authInfo;
+  const isLogged = authorizationStatus === AuthorizationStatus.AUTH;
   return(
     <header className="header">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Link className="header__logo-link" to={MAIN}>
+            <Link className="header__logo-link" to={ MAIN }>
               <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"></img>
             </Link>
           </div>
@@ -44,14 +45,20 @@ function Header ({ authInfo }) {
   );
 }
 
-Hotels.defaultProps = {
-  authInfo: {},
-};
-
 Header.propTypes = {
   authInfo: PropTypes.shape({
     email: PropTypes.string,
   }),
+  authorizationStatus: PropTypes.string,
 };
 
-export default Header;
+const mapStateToProps = (state) => ({
+  authInfo: state.authInfo,
+  authorizationStatus: state.authorizationStatus,
+});
+
+export { Header };
+export default connect(
+  mapStateToProps,
+  null,
+)(Header);

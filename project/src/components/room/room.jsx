@@ -5,8 +5,9 @@ import Header from '../header/header';
 import Reviews from '../reviews/reviews';
 import NearPlaces from '../near-places/near-places';
 import Map from '../map/map';
+import { connect } from 'react-redux';
 
-function Room({ authInfo, reviews, submitReview, nearPlaces, hotels }) {
+function Room({ reviews, submitReview, nearPlaces, hotels }) {
   const { id } = useParams();
   const hotel = hotels.find((item) => item.id === +id);
 
@@ -28,7 +29,7 @@ function Room({ authInfo, reviews, submitReview, nearPlaces, hotels }) {
 
   return (
     <div className="page">
-      <Header authInfo={authInfo}/>
+      <Header />
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
@@ -139,10 +140,18 @@ Room.propTypes = {
       }),
     }),
   ),
-  authInfo: PropTypes.object,
   reviews: PropTypes.array,
   nearPlaces: PropTypes.array,
   submitReview: PropTypes.func.isRequired,
 };
 
-export default Room;
+
+const mapStateToProps = (state) => ({
+  authInfo: state.authInfo,
+});
+
+export { Room };
+export default connect(
+  mapStateToProps,
+  null,
+)(Room);
