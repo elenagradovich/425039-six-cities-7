@@ -5,6 +5,7 @@ const TIME_OUT = 5000;
 
 const HttpCode = {
   UNAUTHORIZED: 401,
+  BAD_REQUEST: 400,
 };
 
 const token = localStorage.getItem('token') ?? '';
@@ -25,7 +26,6 @@ export const createAPI = (onUnauthorized) => {
     if (response?.status === HttpCode.UNAUTHORIZED) {
       onUnauthorized();
     }
-
     throw err;
   };
 

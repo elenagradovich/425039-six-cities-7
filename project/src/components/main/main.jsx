@@ -8,7 +8,7 @@ import CitiesList from '../cities-list/cities-list';
 import { Cities } from '../../constants/map';
 import { connect } from 'react-redux';
 
-function Main({ offersOfCity=[], city=null }) {
+function Main({ offersOfCity, city }) {
   const [activeCardId, setActiveCardId] = useState(null);
   const [hotelsCount, setHotelsCount] = useState(offersOfCity.length);
   const [sortType, setSortType] = useState('POPULAR');

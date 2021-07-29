@@ -1,5 +1,8 @@
 import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { submitComment } from '../../store/actions';
+import {connect} from 'react-redux';
+
 
 const getReviewRatingElements = (clickHandler) => {
   const ratingValues = ['terribly', 'badly', 'not bad', 'good', 'perfect'];
@@ -27,7 +30,7 @@ const getReviewRatingElements = (clickHandler) => {
   });
 };
 
-function ReviewForm ({ submitReview }) {
+function ReviewForm ({ hotelId, onSubmitComment }) {
   const [rating, setRating] = useState(null);
   const [comment, setComment] = useState(null);
 
@@ -41,7 +44,7 @@ function ReviewForm ({ submitReview }) {
 
   const submitClickHandler = (e) => {
     e.preventDefault();
-    submitReview(
+    onSubmitComment(
       {
         comment,
         rating,
@@ -84,7 +87,18 @@ function ReviewForm ({ submitReview }) {
 }
 
 ReviewForm.propTypes = {
-  submitReview: PropTypes.func.isRequired,
+  onSubmitComment: PropTypes.func,
+  hotelId: PropTypes.number,
 };
 
-export default ReviewForm;
+const mapDispatchToProps = (dispatch) => ({
+  onSubmitComment() {
+    dispatch(submitComment());
+  },
+});
+
+export { ReviewForm };
+export default connect(
+  null,
+  mapDispatchToProps,
+)(ReviewForm);

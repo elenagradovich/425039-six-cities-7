@@ -5,8 +5,6 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { reducer } from './store/reducer';
-import { reviews, submitReview } from './mocks/reviews';
-import { nearPlaces } from './mocks/near-places';
 import thunk  from 'redux-thunk';
 import { loadHotels, checkAuth, requireAuthorization } from './store/actions';
 import { createAPI } from './services/api';
@@ -31,11 +29,7 @@ store.dispatch(loadHotels());
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App
-        reviews={reviews}
-        nearPlaces={nearPlaces}
-        submitReview={submitReview}
-      />
+      <App />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'));

@@ -6,12 +6,12 @@ import { connect } from 'react-redux';
 import PlaceCardFavorite from '../place-card-favorite/place-card-favorite';
 import Header from '../header/header';
 
-function Favorites ({ authInfo, favoriteHotels }) {
+function Favorites ({ favoriteHotels }) {
   const isEmpty = !favoriteHotels?.length;//Optional chaining operator
 
   return (
     <div className={`page ${isEmpty && 'pages--favorites-empty'}`}>
-      <Header authInfo={authInfo}/>
+      <Header />
       <main className={`page__main page__main--favorites ${isEmpty && 'page__main--favorites-empty'}`}>
         <div className="page__favorites-container container">
           {!isEmpty && (
@@ -53,12 +53,10 @@ function Favorites ({ authInfo, favoriteHotels }) {
 }
 
 Favorites.propTypes = {
-  authInfo: PropTypes.object,
   favoriteHotels: PropTypes.array,
 };
 
 const mapStateToProps = (state) => ({
-  authInfo: state.authInfo,
   favoriteHotels: state.favoriteHotels,
 });
 

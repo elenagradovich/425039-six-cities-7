@@ -10,14 +10,20 @@ const initialState = Immutable({
   hotels: [],
   authInfo: {},
   nearPlaces: [],
-  reviews: [],
+  comments: [],
   favoriteHotels: [],
   isDataLoaded: false,
   authorizationStatus: AuthorizationStatus.UNKNOWN,
+  hotel: {},
 });
 
 export const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
+    case ActionTypes.START_LOADING:
+      return {
+        ...state,
+        isDataLoaded: false,
+      };
     case ActionTypes.CHANGE_ACTIVE_CITY:
       return {
         ...state,
@@ -33,6 +39,13 @@ export const reducer = (state = initialState, action = {}) => {
       return {
         ...state,
         hotels,
+        isDataLoaded: true,
+      };
+    }
+    case ActionTypes.LOAD_HOTEL: {
+      return {
+        ...state,
+        hotel: action.payload.hotel,
         isDataLoaded: true,
       };
     }
@@ -53,6 +66,18 @@ export const reducer = (state = initialState, action = {}) => {
       return {
         ...state,
         authInfo: action.payload,
+      };
+    case ActionTypes.LOAD_HOTELS_NEARBY:
+      return {
+        ...state,
+        nearPlaces: action.payload.hotels,
+        isDataLoaded: true,
+      };
+    case ActionTypes.LOAD_HOTEL_COMMENTS:
+      return {
+        ...state,
+        comments: action.payload.comments,
+        isDataLoaded: true,
       };
     default:
       return state;

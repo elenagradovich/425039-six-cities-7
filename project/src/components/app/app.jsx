@@ -13,7 +13,7 @@ import Spinner from '../spinner/spinner';
 import { isCheckedAuth } from '../../utils/common';
 import browserHistory from '../../history/browser-history';
 
-function App({ reviews, nearPlaces, submitReview, isDataLoaded, authorizationStatus }) {
+function App({ isDataLoaded, authorizationStatus }) {
   if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
     return (
       <Spinner />
@@ -24,13 +24,7 @@ function App({ reviews, nearPlaces, submitReview, isDataLoaded, authorizationSta
       <Switch>
         <Route path={ RoutePath.MAIN } exact component={ Main } />
         <Route path={ RoutePath.LOGIN } exact component={ SignIn } />
-        <Route path={ RoutePath.OFFER } exact>
-          <Room
-            reviews={ reviews }
-            nearPlaces={nearPlaces}
-            submitReview={ submitReview }
-          />
-        </Route>
+        <Route path={ RoutePath.OFFER } exact component={ Room } />
         <PrivateRoute
           render={() => <Favorites />}
           path={ RoutePath.FAVORITES }
@@ -43,9 +37,6 @@ function App({ reviews, nearPlaces, submitReview, isDataLoaded, authorizationSta
 }
 
 App.propTypes = {
-  reviews: PropTypes.array,
-  nearPlaces: PropTypes.array,
-  submitReview: PropTypes.func.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
   authorizationStatus: PropTypes.string.isRequired,
 };
