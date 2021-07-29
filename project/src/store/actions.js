@@ -2,7 +2,7 @@ import { ActionTypes } from './action-types';
 import { getHotelsOfCity } from '../utils/common';
 import * as APIRoutes from '../constants/route-pathes';
 import { AuthorizationStatus } from '../constants/authorization-status';
-import {getHotelCommentsLink, getHotelLink, getNearbyHotelsLink, MAIN} from '../constants/route-pathes';
+import { getHotelCommentsLink, getHotelLink, getNearbyHotelsLink, MAIN } from '../constants/route-pathes';
 import humps from 'humps';
 
 export const startLoading = () => ({
@@ -23,8 +23,9 @@ export const loadHotels = () => (dispatch, _getState, api) => (
   api.get(APIRoutes.HOTELS)
     .then(({data}) => {
       const hotels = humps.camelizeKeys(data);
-      dispatch({ type: ActionTypes.LOAD_HOTELS, payload: { hotels }});
-      dispatch({ type: ActionTypes.CHANGE_OFFERS_OF_CITY, payload: getHotelsOfCity(hotels, _getState().city)});
+      const offersOfCity = getHotelsOfCity(hotels, _getState().city);
+      dispatch({ type: ActionTypes.LOAD_HOTELS, payload: hotels });
+      dispatch({ type: ActionTypes.CHANGE_OFFERS_OF_CITY, payload: offersOfCity });
     })
 );
 

@@ -34,7 +34,7 @@ function Main({ offersOfCity, city }) {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{hotelsCount} {hotelsCount === 1 ? 'place' : 'places'} to stay in {Cities[city]}</b>
+              <b className="places__found">{hotelsCount} {hotelsCount === 1 ? 'place' : 'places'} to stay in {Cities[city].name}</b>
               <Sorting sortType={sortType} setSortType={setSortType} />
               <Hotels setActiveCardId={setActiveCardId} sortType={sortType} />
             </section>

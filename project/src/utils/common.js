@@ -16,9 +16,9 @@ export const getFavoriteHotels = (hotels) => {
   return favoriteHotels;
 };
 
-export const getHotelsOfCity = (hotels, activeCity) => {
-  if(activeCity) {
-    return hotels.filter((hotel) => hotel.city.name === Cities[activeCity]);
+export const getHotelsOfCity = (hotels, cityKey) => {
+  if(cityKey) {
+    return hotels.filter((hotel) => hotel.city.name === Cities[cityKey].name);
   }
 
   return [];

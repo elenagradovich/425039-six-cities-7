@@ -35,10 +35,9 @@ export const reducer = (state = initialState, action = {}) => {
         offersOfCity: action.payload,
       };
     case ActionTypes.LOAD_HOTELS: {
-      const { hotels } = action.payload;
       return {
         ...state,
-        hotels,
+        hotels: action.payload,
         isDataLoaded: true,
       };
     }

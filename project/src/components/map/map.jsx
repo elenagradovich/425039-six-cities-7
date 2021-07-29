@@ -4,20 +4,6 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import useMap from '../../hooks/useMap';
 import { connect } from 'react-redux';
-import { Cities } from '../../constants/map';
-
-const getActiveCityCoords = (hotels, activeCityKey) => {
-  const activeCity = [...hotels].find((hotel) => hotel.city.name === Cities[activeCityKey]);
-  if(activeCity) {
-    const { latitude, longitude, zoom } = activeCity?.city.location;
-    return {
-      lat: latitude,
-      lng: longitude,
-      zoom,
-    };
-  }
-  return null;
-};
 
 const getCityPoints = (hotels, activePlaceId) => [...hotels].map(({location, id}) => {
   const hotelLocation = {
@@ -30,7 +16,6 @@ const getCityPoints = (hotels, activePlaceId) => [...hotels].map(({location, id}
 
 function Map({ currentOfferId, offersOfCity, city }) {
   const mapRef = useRef(null);
-  const activeCityLocation = getActiveCityCoords(offersOfCity, city);
   const pointsOfCity = getCityPoints(offersOfCity, currentOfferId);
 
   const URL_MARKER_DEFAULT = '../../img/pin.svg';
@@ -48,8 +33,7 @@ function Map({ currentOfferId, offersOfCity, city }) {
     iconAnchor: [15, 30],
   });
 
-  const map = useMap(mapRef, activeCityLocation);
-
+  const map = useMap(mapRef, city);
   useEffect(() => {
     if (map) {
       pointsOfCity.forEach(({ lat, lng, current }) => leaflet
