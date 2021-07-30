@@ -6,13 +6,15 @@ import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { reducer } from './store/reducer';
 import thunk  from 'redux-thunk';
-import { loadHotels, checkAuth, requireAuthorization } from './store/actions';
+import {loadHotels, checkAuth, requireAuthorization, redirectToRoute} from './store/actions';
 import { createAPI } from './services/api';
 import { AuthorizationStatus } from './constants/authorization-status';
+import { NOT_FOUND } from './constants/route-pathes';
 import { redirect } from './store/middlewares/redirect';
 
 const api = createAPI(
   () => store.dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH)),
+  ()  => store.dispatch(redirectToRoute(NOT_FOUND)),
 );
 
 const store = createStore(

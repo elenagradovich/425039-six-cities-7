@@ -83,11 +83,11 @@ export const loadHotelComments = (id) => (dispatch, _getState, api) => (
     })
 );
 
-export const submitComment = (id) => (dispatch, _getState, api) => (
-  api.post(getHotelCommentsLink(id))
+export const submitComment = (id, { comment, rating }) => (dispatch, _getState, api) => (
+  api.post(getHotelCommentsLink(id), { comment, rating })
     .then(({data}) => {
-      const hotels = humps.camelizeKeys(data);
-      dispatch({ type: ActionTypes.LOAD_HOTELS, payload: { hotels }});
+      const comments = humps.camelizeKeys(data);
+      dispatch({ type: ActionTypes.LOAD_HOTEL_COMMENTS, payload: { comments }});
     })
 );
 

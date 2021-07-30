@@ -49,7 +49,7 @@ function PlaceCard ({ hotel, titleHoverHandler, onUpdateCity, onUpdateOffersOfCi
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${rating * 10}%`}}></span>
+            <span style={{width: `${rating * 20}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

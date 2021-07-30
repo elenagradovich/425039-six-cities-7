@@ -25,6 +25,7 @@ function App({ isDataLoaded, authorizationStatus }) {
         <Route path={ RoutePath.MAIN } exact component={ Main } />
         <Route path={ RoutePath.LOGIN } exact component={ SignIn } />
         <Route path={ RoutePath.OFFER } exact component={ Room } />
+        <Route path={ RoutePath.NOT_FOUND } exact component={ NotFound } />
         <PrivateRoute
           render={() => <Favorites />}
           path={ RoutePath.FAVORITES }

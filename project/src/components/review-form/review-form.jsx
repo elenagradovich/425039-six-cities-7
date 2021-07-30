@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { submitComment } from '../../store/actions';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 
 const getReviewRatingElements = (clickHandler) => {
@@ -45,6 +45,7 @@ function ReviewForm ({ hotelId, onSubmitComment }) {
   const submitClickHandler = (e) => {
     e.preventDefault();
     onSubmitComment(
+      hotelId,
       {
         comment,
         rating,
@@ -92,8 +93,8 @@ ReviewForm.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onSubmitComment() {
-    dispatch(submitComment());
+  onSubmitComment(id, { comment,rating }) {
+    dispatch(submitComment(id, { comment, rating }));
   },
 });
 

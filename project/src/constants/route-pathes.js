@@ -3,6 +3,7 @@ export const LOGIN = '/login';
 export const FAVORITES = '/favorites';
 export const HOTELS = '/hotels';
 export const OFFER ='/offer/:id';
+export const NOT_FOUND = '/404';
 export const getOfferLink = (id) => OFFER.replace(':id', id);
 
 export const HOTEL = '/hotels/:id';
