@@ -4,12 +4,12 @@ import PlaceCard from '../place-card/place-card';
 import { connect } from 'react-redux';
 import { sortOffers } from '../../utils/common';
 
-function Hotels ({ offersOfCity, setActiveCardId, sortType }) {
+function Hotels ({ cityOffers, setActiveCardId, sortType }) {
   const titleHoverHandler = ({id}) => {
     setActiveCardId(id);
   };
 
-  const sortedHotels = offersOfCity.length > 1 ? sortOffers(offersOfCity, sortType) : offersOfCity;
+  const sortedHotels = sortOffers(cityOffers, sortType);
 
   return(
     <div className="cities__places-list places__list tabs__content">
@@ -19,15 +19,15 @@ function Hotels ({ offersOfCity, setActiveCardId, sortType }) {
 }
 
 const mapStateToProps = (state) => ({
-  offersOfCity: state.offersOfCity,
+  cityOffers: state.cityOffers,
 });
 
 Hotels.defaultProps = {
-  offersOfCity: [],
+  cityOffers: [],
 };
 
 Hotels.propTypes = {
-  offersOfCity: PropTypes.arrayOf(
+  cityOffers: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
       title: PropTypes.string,

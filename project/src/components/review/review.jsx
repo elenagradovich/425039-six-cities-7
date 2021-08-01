@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
+import { RATING_SCALE } from '../../constants/offers';
 
 const DateTypes = {
   MONTH_YEAR: 'month_year',
@@ -33,7 +34,7 @@ function Review ({ review }) {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{width: `${rating * 20}%`}}></span>
+            <span style={{width: `${rating * RATING_SCALE}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>s
         </div>

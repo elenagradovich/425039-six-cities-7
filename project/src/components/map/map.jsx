@@ -14,9 +14,9 @@ const getCityPoints = (hotels, activePlaceId) => [...hotels].map(({location, id}
   return hotelLocation;
 });
 
-function Map({ currentOfferId, offersOfCity, city }) {
+function Map({ currentOfferId, cityOffers, city }) {
   const mapRef = useRef(null);
-  const pointsOfCity = getCityPoints(offersOfCity, currentOfferId);
+  const pointsOfCity = getCityPoints(cityOffers, currentOfferId);
 
   const URL_MARKER_DEFAULT = '../../img/pin.svg';
   const URL_MARKER_CURRENT = '../../img/pin-active.svg';
@@ -62,7 +62,7 @@ const mapStateToProps = (state) => ({
 });
 
 Map.propTypes = {
-  offersOfCity: PropTypes.array,
+  cityOffers: PropTypes.array,
   currentOfferId: PropTypes.number,
   city: PropTypes.string,
 };

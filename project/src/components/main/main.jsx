@@ -8,17 +8,17 @@ import CitiesList from '../cities-list/cities-list';
 import { Cities } from '../../constants/map';
 import { connect } from 'react-redux';
 
-function Main({ offersOfCity, city }) {
+function Main({ cityOffers, city }) {
   const [activeCardId, setActiveCardId] = useState(null);
-  const [hotelsCount, setHotelsCount] = useState(offersOfCity.length);
+  const [hotelsCount, setHotelsCount] = useState(cityOffers.length);
   const [sortType, setSortType] = useState('POPULAR');
   useEffect(() => {
     setActiveCardId(null);
   }, [city]);
 
   useEffect(() => {
-    setHotelsCount(offersOfCity.length);
-  }, [offersOfCity]);
+    setHotelsCount(cityOffers.length);
+  }, [cityOffers]);
 
   return (
     <Fragment>
@@ -42,7 +42,7 @@ function Main({ offersOfCity, city }) {
               <section className="cities__map map">
                 <Map
                   currentOfferId={activeCardId}
-                  offersOfCity={offersOfCity}
+                  cityOffers={cityOffers}
                 />
               </section>
             </div>
@@ -55,11 +55,11 @@ function Main({ offersOfCity, city }) {
 
 const mapStateToProps = (state) => ({
   city: state.city,
-  offersOfCity: state.offersOfCity,
+  cityOffers: state.cityOffers,
 });
 
 Main.propTypes = {
-  offersOfCity: PropTypes.array,
+  cityOffers: PropTypes.array,
   city: PropTypes.string,
 };
 

@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getOfferLink } from '../../constants/route-pathes';
+import { RATING_SCALE } from '../../constants/offers';
 import { connect } from 'react-redux';
-import { updateCity, updateOffersOfCity } from '../../store/actions';
+import { updateCity, updateCityOffers } from '../../store/actions';
 
-function PlaceCard ({ hotel, titleHoverHandler, onUpdateCity, onUpdateOffersOfCity, hotels }) {
+function PlaceCard ({ hotel, titleHoverHandler, onUpdateCity, onUpdateCityOffers, hotels }) {
   const {
     id,
     title,
@@ -49,14 +50,14 @@ function PlaceCard ({ hotel, titleHoverHandler, onUpdateCity, onUpdateOffersOfCi
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${rating * 20}%`}}></span>
+            <span style={{width: `${rating * RATING_SCALE}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
           <Link to={getOfferLink(id)} onClick={() => {
             onUpdateCity(name.toUpperCase());
-            onUpdateOffersOfCity(hotels, name.toUpperCase());
+            onUpdateCityOffers(hotels, name.toUpperCase());
           }}
           >
             {title}
@@ -84,7 +85,7 @@ PlaceCard.propTypes = {
   }),
   titleHoverHandler: PropTypes.func.isRequired,
   onUpdateCity: PropTypes.func,
-  onUpdateOffersOfCity: PropTypes.func,
+  onUpdateCityOffers: PropTypes.func,
   hotels: PropTypes.array,
 };
 
@@ -96,8 +97,8 @@ const mapDispatchToProps = (dispatch) => ({
   onUpdateCity(city) {
     dispatch(updateCity(city));
   },
-  onUpdateOffersOfCity(hotels, city) {
-    dispatch(updateOffersOfCity(hotels, city));
+  onUpdateCityOffers(hotels, city) {
+    dispatch(updateCityOffers(hotels, city));
   },
 });
 

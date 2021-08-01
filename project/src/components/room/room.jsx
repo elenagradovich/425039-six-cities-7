@@ -6,6 +6,7 @@ import Reviews from '../reviews/reviews';
 import NearPlaces from '../near-places/near-places';
 import Map from '../map/map';
 import { connect } from 'react-redux';
+import { RATING_SCALE } from '../../constants/offers';
 import { loadHotelsNearby, loadHotelComments, loadHotel } from '../../store/actions';
 
 function Room({ nearPlaces, hotel, onLoadHotelsNearby, onLoadComments, onLoadHotel }) {
@@ -60,7 +61,7 @@ function Room({ nearPlaces, hotel, onLoadHotelsNearby, onLoadComments, onLoadHot
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: `${rating * 20}%`}}></span>
+                  <span style={{width: `${rating * RATING_SCALE}%`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">{rating}</span>
@@ -110,7 +111,7 @@ function Room({ nearPlaces, hotel, onLoadHotelsNearby, onLoadComments, onLoadHot
             {Object.keys(hotel).length && nearPlaces &&
               <Map
                 currentOfferId={+id}
-                offersOfCity={[...nearPlaces, hotel]}
+                cityOffers={[...nearPlaces, hotel]}
               />}
           </section>
         </section>

@@ -6,7 +6,7 @@ const initialCity = 'PARIS';
 
 const initialState = Immutable({
   city: initialCity,
-  offersOfCity: [],
+  cityOffers: [],
   hotels: [],
   authInfo: {},
   nearPlaces: [],
@@ -32,7 +32,7 @@ export const reducer = (state = initialState, action = {}) => {
     case ActionTypes.CHANGE_OFFERS_OF_CITY:
       return {
         ...state,
-        offersOfCity: action.payload,
+        cityOffers: action.payload,
       };
     case ActionTypes.LOAD_HOTELS: {
       return {
