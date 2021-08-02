@@ -2,25 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { MAIN } from '../../constants/route-pathes';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import PlaceCardFavorite from '../place-card-favorite/place-card-favorite';
-import { getFavoriteHotels } from '../../utils/common';
 import Header from '../header/header';
 
-function Favorites ({ authInfo, hotels }) {
-  const isEmpty = !hotels?.length;//Optional chaining operator
-
-  const hotelsByPlace = !isEmpty ? getFavoriteHotels(hotels) : [];
+function Favorites ({ favoriteHotels }) {
+  const isEmpty = !favoriteHotels?.length;//Optional chaining operator
 
   return (
     <div className={`page ${isEmpty && 'pages--favorites-empty'}`}>
-      <Header authInfo={authInfo}/>
+      <Header />
       <main className={`page__main page__main--favorites ${isEmpty && 'page__main--favorites-empty'}`}>
         <div className="page__favorites-container container">
           {!isEmpty && (
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
-                {[...hotelsByPlace.keys()].map((location) => (
+                {[...favoriteHotels.keys()].map((location) => (
                   <li className="favorites__locations-items" key={location}>
                     <div className="favorites__locations locations locations--current">
                       <div className="locations__item">
@@ -30,7 +28,7 @@ function Favorites ({ authInfo, hotels }) {
                       </div>
                     </div>
                     <div className="favorites__places">
-                      {hotelsByPlace.get(location).map((hotel) => <PlaceCardFavorite hotel={hotel} key={hotel.id}/>)}
+                      {favoriteHotels.get(location).map((hotel) => <PlaceCardFavorite hotel={hotel} key={hotel.id}/>)}
                     </div>
                   </li>))}
               </ul>
@@ -54,14 +52,16 @@ function Favorites ({ authInfo, hotels }) {
   );
 }
 
-Favorites.defaultProps = {
-  hotels: [],
-  authInfo: {},
-};
-
 Favorites.propTypes = {
-  hotels: PropTypes.array,
-  authInfo: PropTypes.object,
+  favoriteHotels: PropTypes.array,
 };
 
-export default Favorites;
+const mapStateToProps = (state) => ({
+  favoriteHotels: state.favoriteHotels,
+});
+
+export { Favorites };
+export default connect(
+  mapStateToProps,
+  null,
+)(Favorites);

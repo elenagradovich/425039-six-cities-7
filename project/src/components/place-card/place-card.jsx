@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getOfferLink } from '../../constants/route-pathes';
+import { RATING_SCALE } from '../../constants/offers';
 import { connect } from 'react-redux';
-import { updateCity, updateOffersOfCity } from '../../store/actions';
+import { updateCity, updateCityOffers } from '../../store/actions';
 
-function PlaceCard ({ hotel, titleHoverHandler, onUpdateCity, onUpdateOffersOfCity }) {
+function PlaceCard ({ hotel, titleHoverHandler, onUpdateCity, onUpdateCityOffers, hotels }) {
   const {
     id,
     title,
@@ -49,14 +50,14 @@ function PlaceCard ({ hotel, titleHoverHandler, onUpdateCity, onUpdateOffersOfCi
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${rating * 10}%`}}></span>
+            <span style={{width: `${rating * RATING_SCALE}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
           <Link to={getOfferLink(id)} onClick={() => {
             onUpdateCity(name.toUpperCase());
-            onUpdateOffersOfCity(name.toUpperCase());
+            onUpdateCityOffers(hotels, name.toUpperCase());
           }}
           >
             {title}
@@ -67,10 +68,6 @@ function PlaceCard ({ hotel, titleHoverHandler, onUpdateCity, onUpdateOffersOfCi
     </article>
   );
 }
-
-PlaceCard.defaultProps = {
-  hotel: {},
-};
 
 PlaceCard.propTypes = {
   hotel: PropTypes.shape({
@@ -88,21 +85,26 @@ PlaceCard.propTypes = {
   }),
   titleHoverHandler: PropTypes.func.isRequired,
   onUpdateCity: PropTypes.func,
-  onUpdateOffersOfCity: PropTypes.func,
+  onUpdateCityOffers: PropTypes.func,
+  hotels: PropTypes.array,
 };
+
+const mapStateToProps = (state) => ({
+  hotels: state.hotels,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   onUpdateCity(city) {
     dispatch(updateCity(city));
   },
-  onUpdateOffersOfCity(city) {
-    dispatch(updateOffersOfCity(city));
+  onUpdateCityOffers(hotels, city) {
+    dispatch(updateCityOffers(hotels, city));
   },
 });
 
 export { PlaceCard };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(PlaceCard);

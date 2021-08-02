@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Header from '../header/header';
 import Reviews from '../reviews/reviews';
 import NearPlaces from '../near-places/near-places';
 import Map from '../map/map';
+import { connect } from 'react-redux';
+import { RATING_SCALE } from '../../constants/offers';
+import { loadHotelsNearby, loadHotelComments, loadHotel } from '../../store/actions';
 
-function Room({ hotels, authInfo, reviews, submitReview, nearPlaces }) {
+function Room({ nearPlaces, hotel, onLoadHotelsNearby, onLoadComments, onLoadHotel }) {
   const { id } = useParams();
-  const hotel = hotels.find((item) => item.id === +id);
+  useEffect(() => {
+    onLoadHotelsNearby(id);
+    onLoadComments(id);
+    onLoadHotel(id);
+  }, []);
 
   const {
     rating,
@@ -22,15 +29,14 @@ function Room({ hotels, authInfo, reviews, submitReview, nearPlaces }) {
     maxAdults,
     bedrooms,
     type,
-    city = '',
+    title,
   } = hotel;
 
-  const { name: cityName } = city;
   const { avatarUrl, isPro, name } = host;
 
   return (
     <div className="page">
-      <Header authInfo={authInfo}/>
+      <Header />
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
@@ -40,14 +46,12 @@ function Room({ hotels, authInfo, reviews, submitReview, nearPlaces }) {
                   <img className="property__image" src={source} alt="Photo studio"></img>
                 </div>))}
             </div>
-          </div>
+          </div>s
           <div className="property__container container">
             <div className="property__wrapper">
               {isPremium && <div className="property__mark"><span>Premium</span></div>}
               <div className="property__name-wrapper">
-                <h1 className="property__name">
-                  Beautiful &amp; luxurious studio at great location
-                </h1>
+                <h1 className="property__name">{title}</h1>
                 <button className={`property__bookmark-button ${isFavorite && 'property__bookmark-button--active'} button`} type="button">
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use href="#icon-bookmark"></use>
@@ -57,7 +61,7 @@ function Room({ hotels, authInfo, reviews, submitReview, nearPlaces }) {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: `${rating * 10}%`}}></span>
+                  <span style={{width: `${rating * RATING_SCALE}%`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">{rating}</span>
@@ -84,7 +88,7 @@ function Room({ hotels, authInfo, reviews, submitReview, nearPlaces }) {
                 </ul>
               </div>
               <div className="property__host">
-                <h2 className="property__host-title">Meet the host</h2>
+                <h2 className="property__host-title">{name}</h2>
                 <div className="property__host-user user">
                   <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
                     <img className="property__avatar user__avatar" src={avatarUrl} width="74" height="74" alt="Host avatar"></img>
@@ -100,15 +104,15 @@ function Room({ hotels, authInfo, reviews, submitReview, nearPlaces }) {
                   </p>
                 </div>
               </div>
-              <Reviews reviews={reviews} submitReview={submitReview}/>
+              <Reviews hotelId={+id} />
             </div>
           </div>
           <section className="property__map map">
-            <Map
-              offers={[...nearPlaces, hotel]}
-              activeCity={cityName && cityName.toUpperCase()}
-              currentOfferId={+id}
-            />
+            {Object.keys(hotel).length && nearPlaces &&
+              <Map
+                currentOfferId={+id}
+                cityOffers={[...nearPlaces, hotel]}
+              />}
           </section>
         </section>
         <div className="container">
@@ -122,37 +126,36 @@ function Room({ hotels, authInfo, reviews, submitReview, nearPlaces }) {
   );
 }
 
-Room.defaultProps = {
-  hotels: {},
-  authInfo: {},
-  reviews: [],
-  nearPlaces: [],
-};
-
 Room.propTypes = {
-  hotels: PropTypes.arrayOf(
-    PropTypes.shape({
-      rating: PropTypes.number,
-      images: PropTypes.arrayOf(PropTypes.string),
-      isPremium: PropTypes.bool,
-      isFavorite: PropTypes.bool,
-      price: PropTypes.number,
-      goods: PropTypes.arrayOf(PropTypes.string),
-      description: PropTypes.string,
-      maxAdults: PropTypes.number,
-      bedrooms: PropTypes.number,
-      type: PropTypes.string,
-      host: PropTypes.shape({
-        avatarUrl: PropTypes.string,
-        isPro: PropTypes.bool,
-        name: PropTypes.string,
-      }),
-    }),
-  ),
-  authInfo: PropTypes.object,
-  reviews: PropTypes.array,
   nearPlaces: PropTypes.array,
-  submitReview: PropTypes.func.isRequired,
+  onLoadHotelsNearby: PropTypes.func,
+  onLoadComments: PropTypes.func,
+  onLoadHotel: PropTypes.func,
+  hotel: PropTypes.object,
 };
 
-export default Room;
+
+const mapStateToProps = (state) => ({
+  authInfo: state.authInfo,
+  comments: state.comments,
+  nearPlaces: state.nearPlaces,
+  hotel: state.hotel,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoadHotelsNearby(id) {
+    dispatch(loadHotelsNearby(id));
+  },
+  onLoadComments(id) {
+    dispatch(loadHotelComments(id));
+  },
+  onLoadHotel(id) {
+    dispatch(loadHotel(id));
+  },
+});
+
+export { Room };
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Room);

@@ -2,7 +2,7 @@ import React from 'react';
 import { Cities } from '../../constants/map';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { updateCity, updateOffersOfCity } from '../../store/actions';
+import { updateCity, updateCityOffers } from '../../store/actions';
 import PropTypes from 'prop-types';
 
 const getCitiesLinks = (activeCity, updateData) => (Object.keys(Cities).map((key) => (
@@ -12,41 +12,43 @@ const getCitiesLinks = (activeCity, updateData) => (Object.keys(Cities).map((key
       to={'#'}
       onClick={() => updateData(key)}
     >
-      <span>{ Cities[key] }</span>
+      <span>{ Cities[key].name }</span>
     </Link>
   </li>),
 ));
 
-function CitiesList ({ city: activeCity, onUpdateCity, onUpdateOffersOfCity }) {
-  const updateData = (city) => {
-    onUpdateCity(city);
-    onUpdateOffersOfCity(city);
+function CitiesList ({ city, onUpdateCity, onUpdateCityOffers, hotels }) {
+  const updateData = (key) => {
+    onUpdateCity(key);
+    onUpdateCityOffers(hotels, key);
   };
 
   return (
     <ul className="locations__list tabs__list">
-      {getCitiesLinks(activeCity, updateData)}
+      {getCitiesLinks(city, updateData)}
     </ul>
   );
 }
 
 const mapStateToProps = (state) => ({
   city: state.city,
+  hotels: state.hotels,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onUpdateCity(city) {
-    dispatch(updateCity(city));
+  onUpdateCity(key) {
+    dispatch(updateCity(key));
   },
-  onUpdateOffersOfCity(city) {
-    dispatch(updateOffersOfCity(city));
+  onUpdateCityOffers(hotels, key) {
+    dispatch(updateCityOffers(hotels, key));
   },
 });
 
 CitiesList.propTypes = {
   city: PropTypes.string,
   onUpdateCity: PropTypes.func,
-  onUpdateOffersOfCity: PropTypes.func,
+  onUpdateCityOffers: PropTypes.func,
+  hotels: PropTypes.array,
 };
 
 export { CitiesList };

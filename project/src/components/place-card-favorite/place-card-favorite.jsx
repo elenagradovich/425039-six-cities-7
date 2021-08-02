@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { RATING_SCALE } from '../../constants/offers';
 
 function PlaceCardFavorite ({ hotel }) {
   const {
@@ -32,7 +33,7 @@ function PlaceCardFavorite ({ hotel }) {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${rating * 10}%`}}></span>
+            <span style={{width: `${rating * RATING_SCALE}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

@@ -1,31 +1,37 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
-import { createStore } from 'redux'; //инициализируем хранилище
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { reducer } from './store/reducer';
-import { hotels, favoriteHotels } from './mocks/hotels';
-import { authInfo } from './mocks/auth-info';
-import { reviews, submitReview } from './mocks/reviews';
-import { nearPlaces } from './mocks/near-places';
+import thunk  from 'redux-thunk';
+import {loadHotels, checkAuth, requireAuthorization, redirectToRoute} from './store/actions';
+import { createAPI } from './services/api';
+import { AuthorizationStatus } from './constants/authorization-status';
+import { NOT_FOUND } from './constants/route-pathes';
+import { redirect } from './store/middlewares/redirect';
+
+const api = createAPI(
+  () => store.dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH)),
+  ()  => store.dispatch(redirectToRoute(NOT_FOUND)),
+);
 
 const store = createStore(
   reducer,
-  composeWithDevTools(),
+  composeWithDevTools(
+    applyMiddleware(thunk.withExtraArgument(api)),
+    applyMiddleware(redirect),
+  ),
 );
+
+store.dispatch(checkAuth());
+store.dispatch(loadHotels());
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App
-        hotels={hotels}
-        favoriteHotels={favoriteHotels}
-        authInfo={authInfo}
-        reviews={reviews}
-        nearPlaces={nearPlaces}
-        submitReview={submitReview}
-      />
+      <App />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'));

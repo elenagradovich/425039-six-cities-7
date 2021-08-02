@@ -4,12 +4,20 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import useMap from '../../hooks/useMap';
 import { connect } from 'react-redux';
-import { getActiveCityCoords, getCityPoints } from '../../utils/common';
 
-function Map({ currentOfferId, offers, city }) {
+const getCityPoints = (hotels, activePlaceId) => [...hotels].map(({location, id}) => {
+  const hotelLocation = {
+    lat: location.latitude,
+    lng: location.longitude,
+    current: id === activePlaceId,
+  };
+  return hotelLocation;
+});
+
+function Map({ currentOfferId, cityOffers, city }) {
   const mapRef = useRef(null);
-  const activeCityLocation = getActiveCityCoords(offers, city);
-  const pointsOfCity = getCityPoints(offers, currentOfferId);
+  const pointsOfCity = getCityPoints(cityOffers, currentOfferId);
+
   const URL_MARKER_DEFAULT = '../../img/pin.svg';
   const URL_MARKER_CURRENT = '../../img/pin-active.svg';
 
@@ -25,23 +33,20 @@ function Map({ currentOfferId, offers, city }) {
     iconAnchor: [15, 30],
   });
 
-  const map = useMap(mapRef, activeCityLocation);
-
+  const map = useMap(mapRef, city);
   useEffect(() => {
     if (map) {
-      pointsOfCity.forEach(({ lat, lng, current }) => {
-        leaflet
-          .marker({
-            lat,
-            lng,
-          }, {
-            icon: current ? currentIcon : defaultIcon,
-          })
-          .addTo(map);
-      });
+      pointsOfCity.forEach(({ lat, lng, current }) => leaflet
+        .marker({
+          lat,
+          lng,
+        }, {
+          icon: current ? currentIcon : defaultIcon,
+        })
+        .addTo(map),
+      );
     }
   }, [map, pointsOfCity]);
-
   return (
     <div
       id='map'
@@ -54,11 +59,10 @@ function Map({ currentOfferId, offers, city }) {
 
 const mapStateToProps = (state) => ({
   city: state.city,
-  offers: state.offers,
 });
 
 Map.propTypes = {
-  offers: PropTypes.array,
+  cityOffers: PropTypes.array,
   currentOfferId: PropTypes.number,
   city: PropTypes.string,
 };
